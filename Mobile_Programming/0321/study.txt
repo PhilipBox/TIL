@@ -1,0 +1,3 @@
+
+Activity를 만들 때, Launcher Activity를 체크하면 다른 액티비티와 상관 없이 독립적으로 실행하여 테스트가 쉽다!
+
