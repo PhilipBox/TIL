@@ -1,41 +1,39 @@
 ## Vector 
 
-vector ÄÁÅ×ÀÌ³Ê´Â ´ëÇ¥ÀûÀÎ ½ÃÄö½º ÄÁÅ×ÀÌ³Ê·Î, ¹è¿­°ú ºñ½ÁÇÏ¿© »ç¿ëÀÌ ½¬¿ì¸ç ÀÚÁÖ »ç¿ëµÈ´Ù.
-vector´Â ÀÓÀÇ Á¢±Ù ¹Ýº¹ÀÚ(Random Access Iterator)¸¦ Áö¿øÇÏ´Â ¹è¿­ ±â¹Ý ÄÁÅ×ÀÌ³ÊÀÌ´Ù.
-vectorÀÇ °¡Àå Å« Æ¯Â¡ Áß ÇÏ³ª´Â ¿ø¼Ò°¡ ** ÇÏ³ªÀÇ ¸Þ¸ð¸® ºí·Ï¿¡ ¿¬¼ÓÇÏ°Ô ÀúÀå ** µÈ´Ù´Â °ÍÀÌ´Ù. <br>
-±×·¸´Ù º¸´Ï ¿ø¼Ò°¡ Ãß°¡µÇ°Å³ª, »ðÀÔµÉ ¶§ ¸Þ¸ð¸® ÀçÇÒ´çÀÌ ¹ß»ýÇÒ ¼ö ÀÖ°í »ó´çÇÑ ºñ¿ëÀ» ÁöºÒÇÏ°Ô µÈ´Ù. ±×·¡¼­ ¸Þ¸ð¸® ÇÒ´ç Å©±â¸¦ ¾Ë ¼ö ÀÖ°Ô capacity() ÇÔ¼ö¸¦ Á¦°øÇÏ¸ç, ÇÑ¹ø¿¡ ¸Þ¸ð¸®¸¦ ÇÒ´çÇÒ ¼ö ÀÖ´Â reserve() ÇÔ¼öµµ Á¦°øµÈ´Ù.
+vector ì»¨í…Œì´ë„ˆëŠ” ëŒ€í‘œì ì¸ ì‹œí€€ìŠ¤ ì»¨í…Œì´ë„ˆë¡œ, ë°°ì—´ê³¼ ë¹„ìŠ·í•˜ì—¬ ì‚¬ìš©ì´ ì‰¬ìš°ë©° ìžì£¼ ì‚¬ìš©ëœë‹¤.
+vectorëŠ” ìž„ì˜ ì ‘ê·¼ ë°˜ë³µìž(Random Access Iterator)ë¥¼ ì§€ì›í•˜ëŠ” ë°°ì—´ ê¸°ë°˜ ì»¨í…Œì´ë„ˆì´ë‹¤.
+vectorì˜ ê°€ìž¥ í° íŠ¹ì§• ì¤‘ í•˜ë‚˜ëŠ” ì›ì†Œê°€ ** í•˜ë‚˜ì˜ ë©”ëª¨ë¦¬ ë¸”ë¡ì— ì—°ì†í•˜ê²Œ ì €ìž¥ ** ëœë‹¤ëŠ” ê²ƒì´ë‹¤. <br>
+ê·¸ë ‡ë‹¤ ë³´ë‹ˆ ì›ì†Œê°€ ì¶”ê°€ë˜ê±°ë‚˜, ì‚½ìž…ë  ë•Œ ë©”ëª¨ë¦¬ ìž¬í• ë‹¹ì´ ë°œìƒí•  ìˆ˜ ìžˆê³  ìƒë‹¹í•œ ë¹„ìš©ì„ ì§€ë¶ˆí•˜ê²Œ ëœë‹¤. ê·¸ëž˜ì„œ ë©”ëª¨ë¦¬ í• ë‹¹ í¬ê¸°ë¥¼ ì•Œ ìˆ˜ ìžˆê²Œ capacity() í•¨ìˆ˜ë¥¼ ì œê³µí•˜ë©°, í•œë²ˆì— ë©”ëª¨ë¦¬ë¥¼ í• ë‹¹í•  ìˆ˜ ìžˆëŠ” reserve() í•¨ìˆ˜ë„ ì œê³µëœë‹¤.
 
-` ¸Þ¸ð¸®¿¡¼­ V¸¦ vector¿¡ ÀÇÇØ »ý¼ºµÈ ¸Þ¸ð¸®¶ó°í ÇÏÀÚ, [VVVV]°¡ ÇÒ´çµÇ¾î ÀÖ´Âµ¥, ´Ù¸¥ ¸Þ¸ð¸® O°¡ µé¾î¿Í¼­ [VVVVOOO]ÀÇ ¸Þ¸ð¸® ±¸Á¶°¡ µÇ¾úÀ½. ±×·±µ¥, vector¿¡ Ãß°¡ÀûÀ¸·Î ÇÒ´çµÇ¾î¼­ V°¡ ´Ã¾î³ª°Ô µÇ¸é ¿¬¼ÓÀûÀÎ vectorÀÇ ¸Þ¸ð¸® ±¸Á¶¿¡ ¹®Á¦°¡ »ý±â°ÚÁö? µÚ¿¡ OOO°¡ ÀÖÀ¸´Ï.<br>±×·¡¼­ VVVV¸¦ ´Ù Áö¿ì°í, ´Ù¸¥ °ø°£¿¡ VVVV¿¡ ÀÌ¾î¼­ VVVVVVV ¸¸µé°ÚÁö. ÀÌ·¸±â ¶§¹®¿¡, ** Àç ÇÒ´ç½Ã »ó´çÇÑ ºñ¿ë ** ÀÌ µç´Ù´Â °Í! `
+` ë©”ëª¨ë¦¬ì—ì„œ Vë¥¼ vectorì— ì˜í•´ ìƒì„±ëœ ë©”ëª¨ë¦¬ë¼ê³  í•˜ìž, [VVVV]ê°€ í• ë‹¹ë˜ì–´ ìžˆëŠ”ë°, ë‹¤ë¥¸ ë©”ëª¨ë¦¬ Oê°€ ë“¤ì–´ì™€ì„œ [VVVVOOO]ì˜ ë©”ëª¨ë¦¬ êµ¬ì¡°ê°€ ë˜ì—ˆìŒ. ê·¸ëŸ°ë°, vectorì— ì¶”ê°€ì ìœ¼ë¡œ í• ë‹¹ë˜ì–´ì„œ Vê°€ ëŠ˜ì–´ë‚˜ê²Œ ë˜ë©´ ì—°ì†ì ì¸ vectorì˜ ë©”ëª¨ë¦¬ êµ¬ì¡°ì— ë¬¸ì œê°€ ìƒê¸°ê² ì§€? ë’¤ì— OOOê°€ ìžˆìœ¼ë‹ˆ.<br>ê·¸ëž˜ì„œ VVVVë¥¼ ë‹¤ ì§€ìš°ê³ , ë‹¤ë¥¸ ê³µê°„ì— VVVVì— ì´ì–´ì„œ VVVVVVV ë§Œë“¤ê² ì§€. ì´ë ‡ê¸° ë•Œë¬¸ì—,` **ìž¬ í• ë‹¹ì‹œ ìƒë‹¹í•œ ë¹„ìš©** `ì´ ë“ ë‹¤ëŠ” ê²ƒ! `
 
 
-### »ý¼ºÀÚ
+### ìƒì„±ìž
 
-`vector v` : v´Â ºó ÄÁÅ×ÀÌ³ÊÀÌ´Ù.
-`vector v(n)` : v´Â ±âº»ÀûÀ¸·Î ÃÊ±âÈ­µÈ n°³ÀÇ ¿ø¼Ò¸¦ °®´Â´Ù.	// 0À¸·Î ÃÊ±âÈ­µÊ.
-`vector v(n,x)` : v´Â x°ªÀ¸·Î ÃÊ±âÈ­µÈ n°³ÀÇ ¿ø¼Ò¸¦ °®´Â´Ù.
-`vector v(v2)` : v´Â v2 ÄÁÅ×ÀÌ³ÊÀÇ º¹»çº»ÀÌ´Ù. (º¹»ç »ý¼ºÀÚ È£Ãâ)
+`vector v` : vëŠ” ë¹ˆ ì»¨í…Œì´ë„ˆì´ë‹¤.
+`vector v(n)` : vëŠ” ê¸°ë³¸ì ìœ¼ë¡œ ì´ˆê¸°í™”ëœ nê°œì˜ ì›ì†Œë¥¼ ê°–ëŠ”ë‹¤.	// 0ìœ¼ë¡œ ì´ˆê¸°í™”ë¨.
+`vector v(n,x)` : vëŠ” xê°’ìœ¼ë¡œ ì´ˆê¸°í™”ëœ nê°œì˜ ì›ì†Œë¥¼ ê°–ëŠ”ë‹¤.
+`vector v(v2)` : vëŠ” v2 ì»¨í…Œì´ë„ˆì˜ ë³µì‚¬ë³¸ì´ë‹¤. (ë³µì‚¬ ìƒì„±ìž í˜¸ì¶œ)
 
-### ¸â¹öÇÔ¼ö
+### ë©¤ë²„í•¨ìˆ˜
 
-`v.assign(n,x)` : v¿¡ x°ªÀ¸·Î n°³ÀÇ ¿ø¼Ò¸¦ ÇÒ´çÇÑ´Ù.
-`v.at(i)` : vÀÇ i¹øÂ° ¿ø¼Ò¸¦ ÂüÁ¶ÇÑ´Ù.
-`v.back()` : vÀÇ ¸¶Áö¸· ¿ø¼Ò¸¦ ÂüÁ¶ÇÑ´Ù.
-`p=v.begin()` : p´Â vÀÇ Ã¹ ¿ø¼Ò¸¦ °¡¸®Å°´Â ¹Ýº¹ÀÚ.
-`x=v.capacity()` : x´Â v¿¡ ÇÒ´çµÈ °ø°£ÀÇ Å©±â.
-`v.clear()` : vÀÇ ¸ðµç ¿ø¼Ò¸¦ Á¦°ÅÇÑ´Ù.
-`v.empty()` : v°¡ ºñ¾ú´ÂÁö Á¶»çÇÑ´Ù.
-`p=v.end()` : p´Â vÀÇ ³¡À» Ç¥½ÄÇÏ´Â ¹Ýº¹ÀÚ.
-`p=v.erase(p)` : p°¡ °¡¸®Å°´Â ¿ø¼Ò¸¦ Á¦°ÅÇÑ´Ù.
-`q=v.erase(b,e)¹Ýº¹ÀÚ ±¸°£ [b,e)ÀÇ ¸ðµç ¿ø¼Ò¸¦ Á¦°ÅÇÑ´Ù. q´Â ´ÙÀ½ ¿ø¼Ò.
-`v.front()` : vÀÇ Ã¹ ¹øÂ° ¿ø¼Ò¸¦ ÂüÁ¶ÇÑ´Ù.
-`q=v.insert(p,x)` : p¿¡¼­ °¡¸®Å°´Â À§Ä¡¿¡ x°ªÀ» »ðÀÔÇÑ´Ù. q´Â »ðÀÔÇÑ ¿ø¼Ò¸¦ °¡¸®Å°´Â ¹Ýº¹ÀÚ.
-`v.insert(p,n,x)` : p°¡ °¡¸®Å°´Â À§Ä¡¿¡ n°³ÀÇ x°ªÀ» »ðÀÔÇÑ´Ù.
-`v.insert(p,b,e)` : p°¡ °¡¸®Å°´Â À§Ä¡¿¡ ¹Ýº¹ÀÚ ±¸°£ [b,e)ÀÇ ¿ø¼Ò¸¦ »ðÀÔÇÑ´Ù.
-`x=v.max_size()` : x´Â v°¡ ´ãÀ» ¼ö ÀÖ´Â ÃÖ´ë ¿ø¼ÒÀÇ °³¼ö(¸Þ¸ð¸®ÀÇ Å©±â).
-`v.pop_back()` : vÀÇ ¸¶Áö¸· ¿ø¼Ò¸¦ Á¦°ÅÇÑ´Ù.
-`v.push_back()` : vÀÇ ³¡¿¡ x¸¦ Ãß°¡ÇÑ´Ù.
-`p.reserve(n)` : n°³ÀÇ ¿ø¼Ò¸¦ ÀúÀåÇÒ °ø°£À» ¿¹¾àÇÑ´Ù.
-`v.resize(n)` : vÀÇ Å©±â¸¦ nÀ¸·Î º¯°æÇÏ°í, È®ÀåµÇ´Â °ø°£ÀÇ °ªÀ» ±âº»°ªÀ¸·Î ÃÊ±âÈ­ÇÑ´Ù.
-`v.resize(n,x)` : vÀÇ Å©±â¸¦ nÀ¸·Î º¯°æÇÏ°í, È®ÀåµÇ´Â °ø°£ÀÇ °ªÀ» x°ªÀ¸·Î ÃÊ±âÈ­ÇÑ´Ù.
-`v.size()` : vÀÇ ¿ø¼Ò °¹¼ö.
-`v.swap(v2)` : v¿Í v2¸¦ swapÇÑ´Ù.
+`v.assign(n,x)` : vì— xê°’ìœ¼ë¡œ nê°œì˜ ì›ì†Œë¥¼ í• ë‹¹í•œë‹¤. <br>
+`v.at(i)` : vì˜ ië²ˆì§¸ ì›ì†Œë¥¼ ì°¸ì¡°í•œë‹¤. <br>
+`v.back()` : vì˜ ë§ˆì§€ë§‰ ì›ì†Œë¥¼ ì°¸ì¡°í•œë‹¤. <br>
+`p=v.begin()` : pëŠ” vì˜ ì²« ì›ì†Œë¥¼ ê°€ë¦¬í‚¤ëŠ” ë°˜ë³µìž. <br>
+`x=v.capacity()` : xëŠ” vì— í• ë‹¹ëœ ê³µê°„ì˜ í¬ê¸°. <br>
+`v.clear()` : vì˜ ëª¨ë“  ì›ì†Œë¥¼ ì œê±°í•œë‹¤. <br>
+`v.empty()` : vê°€ ë¹„ì—ˆëŠ”ì§€ ì¡°ì‚¬í•œë‹¤. <br>
+`p=v.end()` : pëŠ” vì˜ ëì„ í‘œì‹í•˜ëŠ” ë°˜ë³µìž. <br>
+`p=v.erase(p)` : pê°€ ê°€ë¦¬í‚¤ëŠ” ì›ì†Œë¥¼ ì œê±°í•œë‹¤. <br>
+`v.front()` : vì˜ ì²« ë²ˆì§¸ ì›ì†Œë¥¼ ì°¸ì¡°í•œë‹¤.  <br>
+`q=v.insert(p,x)` : pì—ì„œ ê°€ë¦¬í‚¤ëŠ” ìœ„ì¹˜ì— xê°’ì„ ì‚½ìž…í•œë‹¤. qëŠ” ì‚½ìž…í•œ ì›ì†Œë¥¼ ê°€ë¦¬í‚¤ëŠ” ë°˜ë³µìž. <br>
+`v.insert(p,n,x)` : pê°€ ê°€ë¦¬í‚¤ëŠ” ìœ„ì¹˜ì— nê°œì˜ xê°’ì„ ì‚½ìž…í•œë‹¤. <br>
+`x=v.max_size()` : xëŠ” vê°€ ë‹´ì„ ìˆ˜ ìžˆëŠ” ìµœëŒ€ ì›ì†Œì˜ ê°œìˆ˜(ë©”ëª¨ë¦¬ì˜ í¬ê¸°). <br>
+`v.pop_back()` : vì˜ ë§ˆì§€ë§‰ ì›ì†Œë¥¼ ì œê±°í•œë‹¤. <br>
+`v.push_back()` : vì˜ ëì— xë¥¼ ì¶”ê°€í•œë‹¤. <br>
+`p.reserve(n)` : nê°œì˜ ì›ì†Œë¥¼ ì €ìž¥í•  ê³µê°„ì„ ì˜ˆì•½í•œë‹¤. <br>
+`v.resize(n)` : vì˜ í¬ê¸°ë¥¼ nìœ¼ë¡œ ë³€ê²½í•˜ê³ , í™•ìž¥ë˜ëŠ” ê³µê°„ì˜ ê°’ì„ ê¸°ë³¸ê°’ìœ¼ë¡œ ì´ˆê¸°í™”í•œë‹¤. <br>
+`v.resize(n,x)` : vì˜ í¬ê¸°ë¥¼ nìœ¼ë¡œ ë³€ê²½í•˜ê³ , í™•ìž¥ë˜ëŠ” ê³µê°„ì˜ ê°’ì„ xê°’ìœ¼ë¡œ ì´ˆê¸°í™”í•œë‹¤. <br>
+`v.size()` : vì˜ ì›ì†Œ ê°¯ìˆ˜. <br>
+`v.swap(v2)` : vì™€ v2ë¥¼ swapí•œë‹¤. <br>
