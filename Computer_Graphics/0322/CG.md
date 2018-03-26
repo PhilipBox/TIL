@@ -1,17 +1,17 @@
 OpenGL
 
-`glutInit()` À©µµ¿ì ¿î¿µÃ¼Á¦¿Í ¼¼¼Ç ¿¬°á
-`glFlush()` µå¶óÀÌ¹ö¿¡ ´õ ÀÌ»ó ¸í·É¾î¸¦ ½×Áö ¸»°í ÇöÀç±îÁö ½×ÀÎ ¸í·É¾î ¸ðµÎ¸¦ ¹«Á¶°Ç ÇÁ·Î¼¼¼­¿¡ Àü´ÞÇÏµµ·Ï °­Á¦ÇÏ´Â ¸í·É.
+`glutInit()` ìœˆë„ìš° ìš´ì˜ì²´ì œì™€ ì„¸ì…˜ ì—°ê²°<br>
+`glFlush()` ë“œë¼ì´ë²„ì— ë” ì´ìƒ ëª…ë ¹ì–´ë¥¼ ìŒ“ì§€ ë§ê³  í˜„ìž¬ê¹Œì§€ ìŒ“ì¸ ëª…ë ¹ì–´ ëª¨ë‘ë¥¼ ë¬´ì¡°ê±´ í”„ë¡œì„¸ì„œì— ì „ë‹¬í•˜ë„ë¡ ê°•ì œí•˜ëŠ” ëª…ë ¹.
 
-`glutCreateWindow()` Å¸ÀÌÆ² ¹Ù ÆÄ¶ó¹ÌÅÍ¸¦ ³Ñ±â¸é¼­ GLUT¿¡°Ô »õ À©µµ¿ì¸¦ »ý¼ºÇÏ¶ó´Â °Í.
-`glutDisplayFunc()` È­¸é µð½ºÇÃ·¹ÀÌ ÀÌº¥Æ®°¡ ¹ß»ýÇÏ¸é ( ) ³»ºÎÀÇ ÄÝ¹é ÇÔ¼ö¸¦ ½ÇÇàÇÏ¶ó´Â °Í. ´Ù½Ã ¸»ÇØ, ¾î¶² ¸í·ÉÀ» ½ÇÇàÇÏ¶ó´Â °ÍÀÌ ¾Æ´Ï¶ó, È­¸é µð½ºÇÃ·¹ÀÌ ÀÌº¥Æ®°¡ ¹ß»ýÇÒ ¶§ ½ÇÁ¦·Î ¾î¶² ÇÔ¼ö¸¦ È£ÃâÇØ¾ß ÇÏ´ÂÁö¸¦ µî·ÏÇÏ´Â ÇÔ¼ö.
+`glutCreateWindow()` íƒ€ì´í‹€ ë°” íŒŒë¼ë¯¸í„°ë¥¼ ë„˜ê¸°ë©´ì„œ GLUTì—ê²Œ ìƒˆ ìœˆë„ìš°ë¥¼ ìƒì„±í•˜ë¼ëŠ” ê²ƒ.
+`glutDisplayFunc()` í™”ë©´ ë””ìŠ¤í”Œë ˆì´ ì´ë²¤íŠ¸ê°€ ë°œìƒí•˜ë©´ ( ) ë‚´ë¶€ì˜ ì½œë°± í•¨ìˆ˜ë¥¼ ì‹¤í–‰í•˜ë¼ëŠ” ê²ƒ. ë‹¤ì‹œ ë§í•´, ì–´ë–¤ ëª…ë ¹ì„ ì‹¤í–‰í•˜ë¼ëŠ” ê²ƒì´ ì•„ë‹ˆë¼, í™”ë©´ ë””ìŠ¤í”Œë ˆì´ ì´ë²¤íŠ¸ê°€ ë°œìƒí•  ë•Œ ì‹¤ì œë¡œ ì–´ë–¤ í•¨ìˆ˜ë¥¼ í˜¸ì¶œí•´ì•¼ í•˜ëŠ”ì§€ë¥¼ ë“±ë¡í•˜ëŠ” í•¨ìˆ˜.
 
-`glutMainLoop()` ÀÌº¥Æ®º°·Î ÄÝ¹é ÇÔ¼ö¸¦ µî¤¤·ÏÇßÀ¸¹Ç·Î ÀÌº¥Æ® ·çÇÁ(Event Loop)·Î ÁøÀÔÇÏ¶ó´Â ÇÔ¼ö. µû¶ó¼­ ¸ðµç GL programÀº Ç×»ó `glutMainLoop()` ÇÔ¼ö·Î ³¡³­´Ù.
+`glutMainLoop()` ì´ë²¤íŠ¸ë³„ë¡œ ì½œë°± í•¨ìˆ˜ë¥¼ ë“±ã„´ë¡í–ˆìœ¼ë¯€ë¡œ ì´ë²¤íŠ¸ ë£¨í”„(Event Loop)ë¡œ ì§„ìž…í•˜ë¼ëŠ” í•¨ìˆ˜. ë”°ë¼ì„œ ëª¨ë“  GL programì€ í•­ìƒ `glutMainLoop()` í•¨ìˆ˜ë¡œ ëë‚œë‹¤.
 
 
-`glutInit(&argc,argv)` GLUT À©µµ¿ì ÇÔ¼ö, GLUT ¶óÀÌºê·¯¸®¸¦ ÃÊ±âÈ­ÇÏ°í À©µµ¿ì ¿î¿µÃ¼Á¦¿Í ¿¬°áÇÏ¿© ÇÏ³ªÀÇ ¼¼¼ÇÀ» Çü¼º
+`glutInit(&argc,argv)` GLUT ìœˆë„ìš° í•¨ìˆ˜, GLUT ë¼ì´ë¸ŒëŸ¬ë¦¬ë¥¼ ì´ˆê¸°í™”í•˜ê³  ìœˆë„ìš° ìš´ì˜ì²´ì œì™€ ì—°ê²°í•˜ì—¬ í•˜ë‚˜ì˜ ì„¸ì…˜ì„ í˜•ì„±
 
-`glClear(GL_COLOR_BUFFER_BIT)` ÄÃ·¯ ¹öÆÛ(GL_COLOR_BUFFER_BIT), Áï ÇÁ·¹ÀÓ ¹öÆÛ¸¦ ÃÊ±âÈ­(Clear)ÇÏ¶ó´Â ÀÇ¹Ì. ÃÊ±âÈ­¿¡ »ç¿ëµÉ »öÀº ÀÌÀüÀÇ glClearColor()¿¡¼­ ¼³Á¤ÇÑ »ö.
+`glClear(GL_COLOR_BUFFER_BIT)` ì»¬ëŸ¬ ë²„í¼(GL_COLOR_BUFFER_BIT), ì¦‰ í”„ë ˆìž„ ë²„í¼ë¥¼ ì´ˆê¸°í™”(Clear)í•˜ë¼ëŠ” ì˜ë¯¸. ì´ˆê¸°í™”ì— ì‚¬ìš©ë  ìƒ‰ì€ ì´ì „ì˜ glClearColor()ì—ì„œ ì„¤ì •í•œ ìƒ‰.
 
-`glClearColor()` ÃÊ±âÈ­ »ö(Clearing Color)ÀÌ¶ó´Â »óÅÂ º¯¼öÀÇ °ªÀ» ¼³Á¤ÇÏ´Â ÇÔ¼ö. ¿©±â¼­ ÆÄ¶ó¹ÌÅÍÀÇ °ªÀº ÃÖ¼Ò 0.0¿¡¼­ ÃÖ´ë 1.0À» ±âÁØÀ¸·Î ¸í½ÃÇÑ °ÍÀ¸·Î, R,G,B ºûÀÇ ¼¼±â°¡ °¢°¢ 0.0À¸·Î ¸ðµÎ ÃÖ¼ÒÀÌ¹Ç·Î ÀÌ¸¦ ÇÕÇÏ¸é Èæ»öÀÌ µÊ. ³× ¹øÂ° ÆÄ¶ó¹ÌÅÍ´Â ¾ËÆÄ(Alpha)¶ó°í ºÒ¸®´Â °ÍÀ¸·Î, ºÒÅõ¸íµµ(Opacity)¸¦ ³ªÅ¸³½´Ù. ÀÌ °ªÀÌ 1.0ÀÌ¸é, 100% ºÒÅõ¸íÇÏ°í µÞ ¹è°æ»öÀÌ º¸ÀÌÁö ¾Ê´Â´Ù.
+`glClearColor()` ì´ˆê¸°í™” ìƒ‰(Clearing Color)ì´ë¼ëŠ” ìƒíƒœ ë³€ìˆ˜ì˜ ê°’ì„ ì„¤ì •í•˜ëŠ” í•¨ìˆ˜. ì—¬ê¸°ì„œ íŒŒë¼ë¯¸í„°ì˜ ê°’ì€ ìµœì†Œ 0.0ì—ì„œ ìµœëŒ€ 1.0ì„ ê¸°ì¤€ìœ¼ë¡œ ëª…ì‹œí•œ ê²ƒìœ¼ë¡œ, R,G,B ë¹›ì˜ ì„¸ê¸°ê°€ ê°ê° 0.0ìœ¼ë¡œ ëª¨ë‘ ìµœì†Œì´ë¯€ë¡œ ì´ë¥¼ í•©í•˜ë©´ í‘ìƒ‰ì´ ë¨. ë„¤ ë²ˆì§¸ íŒŒë¼ë¯¸í„°ëŠ” ì•ŒíŒŒ(Alpha)ë¼ê³  ë¶ˆë¦¬ëŠ” ê²ƒìœ¼ë¡œ, ë¶ˆíˆ¬ëª…ë„(Opacity)ë¥¼ ë‚˜íƒ€ë‚¸ë‹¤. ì´ ê°’ì´ 1.0ì´ë©´, 100% ë¶ˆíˆ¬ëª…í•˜ê³  ë’· ë°°ê²½ìƒ‰ì´ ë³´ì´ì§€ ì•ŠëŠ”ë‹¤.
 
