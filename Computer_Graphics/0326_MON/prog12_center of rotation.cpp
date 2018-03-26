@@ -42,13 +42,12 @@ void display()
 	GLfloat v0[3] = { 15, 15, 35 }, v1[3] = { 35, 15, 35 }, v2[3] = { 35,35, 35 }, v3[3] = { 15, 35, 35 };
 	GLfloat v4[3] = { 40, 20, 15 }, v5[3] = { 20, 20, 15 }, v6[3] = { 40,40, 15 }, v7[3] = { 20, 40, 15 };
 	/*
-	½Ã°£¿¡ µû¶ó¼­´Â. ¼¼Å¸°¡ º¯ÇÏ¸é µÊ.
-	±× ¼¼Å¸´Â µğ½ºÇÃ·¹ÀÌ¿¡¼­ º¯ÇØµµ µÊ.
-	Å¸ÀÌ¸Ó¿¡¼­ ÇØµµ µÊ, ³ª´Â Å¸ÀÌ¸Ó¿¡¼­ Çß¾î
-	
+	As time passes, theta has to be changed.
+	The theta can be located in Display function or Timer function.
+	In my codes, The theta is located in Timer function.
 	*/
 	
-	// ÀÌµ¿¸ÕÀú ÈÄ È¸Àü! ¼ø¼­°¡ Áß¿äÇØ!
+	// ì´ë™ë¨¼ì € í›„ íšŒì „! ìˆœì„œê°€ ì¤‘ìš”í•´!
 	center(v0);
 	center(v1);
 	center(v2);
@@ -138,20 +137,9 @@ void center(GLfloat* v)
 
 void timer(int t)
 {
-	glutPostRedisplay(); // redraw gralatitudecs (rather than calling display() itself)		//»õ·Î¿î È­¸éÀ» ´Ù½Ã ±×¸®´Â°Å¾ß! ÀÌ°Ô Áß¿äÇØ!
-						 //OS¿¡°Ô displayÇØ ´Ş¶ó°í È£ÃâÀ» ³Ñ°ÜÁÖ´Â °ÅÀÓ!
-	glutTimerFunc(delay, timer, t); // set timer function again //Àç±ÍÈ£Ãâ!
+	glutPostRedisplay(); // redraw gralatitudecs (rather than calling display() itself)		//ìƒˆë¡œìš´ í™”ë©´ì„ ë‹¤ì‹œ ê·¸ë¦¬ëŠ”ê±°ì•¼! ì´ê²Œ ì¤‘ìš”í•´!
+						 //OSì—ê²Œ displayí•´ ë‹¬ë¼ê³  í˜¸ì¶œì„ ë„˜ê²¨ì£¼ëŠ” ê±°ì„!
+	glutTimerFunc(delay, timer, t); // set timer function again //ì¬ê·€í˜¸ì¶œ!
 	
 	theta++;
 }
-
-
-/*
-sin cos ÇÔ¼ö¸¦ ¾µ ¶§´Â radian value¸¦ ³Ö¾îÁà¾ß ÇØ.
-
-¿øÀÇ ¹İÁö¸§ÀÌ È£ÀÇ ±æÀÌ¿Í °°Àº °¢µµ¸¦ radianÀÌ¶ó°í ÇØ.
-
-degree °ªÀ» radianÀ¸·Î ¹Ù²Ù·Á¸é 
-
-
-*/
