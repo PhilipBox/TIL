@@ -1,0 +1,101 @@
+#[R_Studio]
+
+iris / 아이리스 데이터 셋
+	ctrl + l : 현재화면을 지워라
+r에서 등호(=)는 대입하라 라는 명령어!
+	<- 이것도 같은 명령어야  (e.g. data_raw <- iris)
+	// 콘솔상에서는 차이는 없는데, 실제로는 차이는있어.
+
+iris 데이터 : 4개의 변수를 기반으로, 3개의 종을 예측
+
+
+4개의 변수의 변화를 보기가 어려워서, 분석을 할거야. 
+시각화해서 각각의 데이터를 보면 편하겠지?
+
+>plot(data_raw) 하면 상관계수 표가 뜸. 
+하지만, 이렇게 보면 불편한게 좀 있어.
+
+>install.packages("caret") 
+	//carot은 featureplot in r을 구글에 검색해서 들어간걸 우측 상단에 있는걸 봐서 안거야.
+
+
+-classification : 어디에 속하는지 맞추는 것 , 고양이인지 강아지인지.
+여러가지 알고리즘을 가지고 배울거야 
+#알고리즘들!
+  # Logistic regression
+  # LDA & QDA
+  # Random Forest
+  # Support  Vector Machine
+  #Neural Network
+  # XGBoost
+
+classfication이 중요한 이유는, 대부분 업무들이 여기에 포함되기 때문이야.
+
+
+>library(caret) 해야 featurePlot을 쓸수있어
+
+그냥 featurePlot 쓰면 에러떠, 종을 지워줘야해.(species)
+feature들만 비교를 하는거니까.
+5열(sepecies)를 빼줘야해.
+
+>head(data_raw[1:5,])
+ 
+>featurePlot(data_raw[,1:4], data_raw$Species)
+	//data set에 $를치면 컬럼들 네임이 뜬다! 그중 하나를 지정해라!  [그래프 뜸]
+
+>install.pacakes("ellipse")
+
+>featurePlot(data_raw[,1:4], data_raw$Species, "ellipse")
+
+============================================
+우리가 따라야 할 규칙?
+
+데이터셋이 주어져 있으면, 기본적으로 나눠야 해.
+학습 할 data와 학습 된 data로 나눠야해.
+
+test set은 학습이 끝난 후에 써야한다.
+
+	// ?함수명 (e.g. ?createDataPartition)
+	// 함수에 대한 정보가 자세히 나온다.
+
+trainRowNumbers = createDataPartition(iris$Species,p = 0.8,list= FALSE)
+
+> trainRowNumbers = createDataPartition(iris$Species,p = 0.8,list= FALSE)
+> trainData = data_raw[ trainRowNumbers, ]
+> testData = data_raw[ -trainRowNumbers, ]
+
+
+ model = train(Species ~., data = trainData, method = 'rf')
+// Species는 아까 y에 해당하는 영역이었잖아, 이걸 종속변수로 지정해준거야.
+// 즉 예측하라는 데이터를 이것으로 지정했다는 거야.
+// 수식에서 y= f(x)에서 y를 지정해준거야. 이제 f(x)를 지정해줘야겠지.
+// ~.   다 집어넣어라, 
+	// 만약 부분만 넣으려면 ~ Spetal.length + Spetal.width , 
+	// 그러면 f(x1,x2)이렇게 인식할거야
+// data는 학습된 data를 집어넣으라는 거고
+// method는 굉장히 많아.
+
+>model 검색해보면, 성능확인 가능
+
+>predicted = predict(model, testData)
+
+> predicted 
+> testData$Species
+> predicted == testData$Species
+	// ==는 비교연산자! 결과값이 나왔잖아 
+> sum(predicted == testData$Species)
+> sum(predicted == testData$Species)/30 * 100
+
+>confusionMatrix(reference = testData$Species, data = predicted, mode = 'everything' , positive = 'MM')
+
+[method]
+svmLinear
+rf
+earth
+lda (이걸로 성능이 안나왔으면. qda로 돌려봐라) qda는 lda의 심화버전 
+nnet
+
+
+[R Study 책]
+// 실리콘벨리 데이터 과학자가 알려주는 따라 하며 배우는 데이터 과학
+//R을 이용한 데이터 분석 실무 ->pdf 있음 
