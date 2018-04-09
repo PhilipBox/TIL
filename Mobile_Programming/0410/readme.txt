@@ -17,3 +17,5 @@ Toast.makeText(getApplicationContext(), "내용", Toast.LENGTH_LONG).show();
         //"tel:010-9211-1220"에서, tel하고 공백 추가하면 error발생. 반드시 붙여서 작성할 것.
 
 ==============================================
+Activity 이름을 바꿀 때는, manifests에서도 변경을 해줘야해! 
+-> 이것 때문에 엄청 고생함! 애초에 Activity 생성할 때 이름 바꿀일 없도록 주의.
