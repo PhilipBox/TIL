@@ -28,7 +28,7 @@
         android:hint="Age"
         />
 
-    <!--'추가' Button area-->
+    <!--'ADD' Button area-->
     <Button android:id="@+id/btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
