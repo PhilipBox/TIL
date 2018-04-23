@@ -1,0 +1,1 @@
+## 새로운 Activity추가 후, Manifest에 코드 추가하는거 잊지 말기!
