@@ -3,6 +3,7 @@ package org.androidtown.lab3_2;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                Log.v("알림", "onClick method 실행.");
                 String str_Name = Name.getText().toString();
 
                 String str_Gender = "";
@@ -47,20 +48,23 @@ public class MainActivity extends AppCompatActivity {
                     str_Gender = Female.getText().toString();
 
                 String str_SMS = "";
-                if(SMS.isChecked())
-                    str_SMS = SMS.getText().toString();
+                if(SMS.isChecked()) {
+                    str_SMS = (String) SMS.getText().toString();
+                }
 
                 String str_Email = "";
-                if(EmailAddrs.isChecked())
-                    str_Email = EmailAddrs.getText().toString();
+                if(EmailAddrs.isChecked()) {
+                    str_Email = (String) EmailAddrs.getText().toString();
+                }
 
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                intent.putExtra("Name", str_Name);
-                intent.putExtra("Gender", str_Gender);
-                intent.putExtra("SMS", str_SMS);
-                intent.putExtra("EmailAddrs", str_Email);
+                Intent intent1 = new Intent(getApplicationContext(), RegisterActivity.class);
+                intent1.putExtra("name", str_Name);
+                intent1.putExtra("gender", str_Gender);
+                intent1.putExtra("sms", str_SMS);
+                intent1.putExtra("email", str_Email);
 
-                startActivity(intent);
+                Log.v("알림", "StartActivity 이전");
+                startActivity(intent1);
                 finish();
 
             }//end onClick method
