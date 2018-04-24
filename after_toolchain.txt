@@ -1,0 +1,25 @@
+toolchain 다운로드 후 진행 과정
+
+sudo apt-get install bison byacc flex gperf libncurses5-dev zlib1g-dev gettext g++
+
+http://ymorin.is-a-geek.org/projects/kconfig-frontends 링크에서 다운로드
+
+tar -xvf kconfig-frontends-x.xx.x.x.tar.bz2
+(x.x는 tab 입력-자동완성 을 의미)
+
+cd kconfig-frontends-x.xx.x.x
+
+./configure --enable-mconf --disable-gconf --disable-qconf
+make
+sudo make install
+
+cd <Kconfig-frontend_package_PATH>
+./configure --prefix=/usr
+make
+sudo make install
+
+tizenRT/bin/os 에서 , sudo make menuconfig 실시
+
+./configure.sh artik053/hello
+
+make 실시.
