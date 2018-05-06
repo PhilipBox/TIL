@@ -45,6 +45,19 @@ public class MainActivity extends AppCompatActivity {
             canvas.drawLine(50,120,240,120,Pnt);// startX,Y 좌표부터 stopX,Y 좌표까지 그리기.
 
 
+            // Join 모양 테스트
+
+            Pnt.setColor(Color.BLACK);  // Paint 색 지정
+            Pnt.setStrokeWidth(20);     // STROKE - 외곽선(테두리) 두께 설정
+            Pnt.setStyle(Paint.Style.STROKE);       // Paint style을 STROKE로 지정
+            Pnt.setStrokeJoin(Paint.Join.MITER);    // Join - MITER : 모서리를 각진 모양으로 만듦.
+            canvas.drawRect(50,150,90,200,Pnt); // (50,150)부터 (90,200)까지 사각형으로 채우기. Pnt Paint를 사용하여.
+
+            Pnt.setStrokeJoin(Paint.Join.BEVEL);    // Join - BEVEL : 모서리가 둥글게 살짝 깍인 모양으로 만듦.
+            canvas.drawRect(120, 150, 160,200, Pnt); // (120,150)부터 (160,200)까지 사각형으로 채우기. Pnt Paint를 사용하여.
+
+            Pnt.setStrokeJoin(Paint.Join.ROUND);    // Join - ROUND : 모서리를 둥근 모양으로 만듦.
+            canvas.drawRect(190, 150, 230,200, Pnt); // (190,150)부터 (230,200)까지 사각형으로 채우기. Pnt Paint를 사용하여.
 
         }
     }
