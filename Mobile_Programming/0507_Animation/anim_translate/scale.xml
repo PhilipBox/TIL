@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <scale
+        android:duration="2500"
+        android:pivotX="50%"
+        android:pivotY="50%"
+
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+
+        android:toXScale="2.0"
+        android:toYScale="2.0"
+        />
+    <!--
+        duration : 2500 - 2.5초 (시간을 나타냄, 2.5초동안!)
+        pivotX,Y : 50%이므로, 이미지의 정중앙을 축으로 해서 스케일 조정을 하라 라는 의미.
+        fromX,YScale : 1.0을 기준으로 하라.
+        toX,YScale : 2.0으로 변경 하라 .
+
+     즉, 1.0 -> 2.0 이라는 것은, xyScale을 2배로 늘리라고 하는 것.
+     -->
+
+
+    <scale
+        android:startOffset="2500"
+        android:duration = "2500"
+
+        android:pivotX="50%"
+        android:pivotY="50%"
+
+        android:fromXScale="1.0"
+        android:fromYScale="1.0"
+
+        android:toXScale="0.5"
+        android:toYScale="0.5"
+        />
+    <!--
+        startOffset : 애니메이션이 시작되는 지점, 앞서 scale에서 2.5초동안 변화를 줬지? 그 지점을 말하는 것!
+        duration : 2500 - 2.5초 (시간을 나타냄, 2.5초동안!)
+        pivotX,Y : 50%이므로, 이미지의 정중앙을 축으로 해서 스케일 조정을 하라 라는 의미.
+        fromX,YScale : 1.0을 기준으로 하라.  ( 위에서 2.0으로 2배한 크기가 여기서는 1.0(기준)이 되겠지!)
+        toX,YScale : 0.5으로 변경하라.
+
+     즉, 1.0 -> 0.5 라는 것은, 현재이미지 크기를 1.0을 기준으로 하여, 절반으로 줄이라는 뜻.
+    -->
+</set>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <translate
+        android:fromXDelta="0%p"
+        android:toXDelta="300%p"
+        android:duration="1500"
+        />
+    <!--
+        duration : 1.5 - 1.5초 (시간을 나타냄, 1.5초동안!)
+        fromX,YDelta : 이미지의 초기 위치
+        toX,YDelta : 이미지의 최종(목적) 위치
+
+     즉, 0%p 에서 이동하기 시작하여, 300%p까지 1.5초에 걸쳐서 이동하라는 것.
+     (toX,YDelta의 수치를 크게 하여도, 화면상에서는 사라지지만 시간에 비례하여 이미지의 속도가 빨라짐!
+     -->
+
+</set>

@@ -1,4 +1,4 @@
-### Built-in tween Animation 
+### Built-in Tween Animation 
 `tween aniamtion` : 안드로이드에서 기본적으로 제공되는 `built-in animation`이다.<br>
 이 `tween aniamtion`을 지원하는 방법에는 4가지가 있다!<br>
 1. Transition Animation
@@ -8,8 +8,7 @@
 3. Scale Animation
 - Scaling : 이미지의 크기를 늘렸다 줄였다 하는 것.<br>
 4. Alpha Animation
-- Transparency : 이미지의 투명도에 변화를 주는 애니메이션 기법.<br>
-<br>
+- Transparency : 이미지의 투명도에 변화를 주는 애니메이션 기법.<br><br>
 각각의 방법을 쓰기 위해서는, `이전 값`에서 `변화되는 값`을 지정해준다.<br>
 e.g.) 투명도 A에서 B로 변환시켜라.<br>
 즉, `초기값`과 `이후값`을 지정해주면서 애니메이션 효과를 구현할 수 있다!<br><br>
