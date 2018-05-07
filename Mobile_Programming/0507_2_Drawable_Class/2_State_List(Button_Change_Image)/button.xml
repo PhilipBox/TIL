@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <!--
+    True일때, 빨간색 안드로이드가 나타남
+    즉, 버튼이 눌렸을 때!
+        -->
+    <item
+        android:state_pressed="true"
+        android:drawable="@drawable/android_red"
+        />
+
+
+        <!--
+    Default일때, 초록색 안드로이드가 나타남
+        -->
+    <item
+        android:drawable="@drawable/android_green"/>
+
+</selector>
