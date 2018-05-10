@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:visibility="visible">
+
+    <!-- Base Area -->
+    <LinearLayout
+        android:id="@+id/base_area"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="#0099CB">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Base Area"
+            android:textColor="#ffffff"
+            android:textSize="35dp"/>
+        <Button
+            android:id="@+id/base_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="120dp"
+            android:text="OPEN PAGE" />
+
+    </LinearLayout>
+
+    <!-- Sliding Area -->
+    <LinearLayout
+        android:id="@+id/slide_area"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="#659900"
+        android:visibility="invisible">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:text="Sliding Area"
+            android:textColor="#ffffff"
+            android:textSize="35dp" />
+        <Button
+            android:id="@+id/sliding_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="90dp"
+            android:text="CLOSE PAGE" />
+
+    </LinearLayout>
+
+</FrameLayout>
