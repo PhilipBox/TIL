@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/widget28"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ff009999"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Working ...."
+        />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
