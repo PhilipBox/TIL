@@ -45,4 +45,4 @@ PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
 PackageManager.DONT_KILL_APP)
 ```
 
-<br>AlarmManager 의 set 과 setRepeating 메서드를 사용하고 있는 경우라면, API 19 부터는 이벤트가 발생하는 간격이 정확히 일치하지 않을 수 있다는 점을 염두해 두셔야 합니다. 킷캣에서는 배터리 효율을 위해 유사한 시간에 일어나는 알람 이벤트를 이벤트를 모아서 한번에 처리하는 식으로 동작하도록 구현되었습니다. 이전과 같이 앱이 비교적 정확한 시간 마다 발생하는 이벤트를 수신할 필요가 있는 경우 필요한 경우라면, 새롭게 추가된 setExact 메서드를 사용하시기 바랍니다.<br>
+<br>AlarmManager 의 set 과 setRepeating 메서드를 사용하고 있는 경우라면, API 19 부터는 이벤트가 발생하는 간격이 정확히 일치하지 않을 수 있다는 점을 염두해 두어야 한다. 이전과 같이 앱이 비교적 정확한 시간 마다 발생하는 이벤트를 수신할 필요가 있는 경우 필요한 경우라면, 새롭게 추가된 setExact 메서드를 사용하는 것이 좋다.<br>
