@@ -1,0 +1,50 @@
+체크박스(id)
+
+파트너 코드 (그냥읽어)	userCode 
+
+계산서 발행일 		billDate 
+
+파트너사			userCompany 
+
+파트너명			userName  
+
+고객코드			c_code 
+
+고객사명			c_name 
+
+요금제			c_plan 
+
+정산주기			c_calcul 
+
+요금			c_fee 
+
+마진			c_margin 
+
+미납금			c_unpaid 
+
+
+
+create table ARM_table (
+     id int AUTO_INCREMENT primary key,
+     billDate varchar(50),
+     userCompany varchar(50),
+     userName varchar(50),
+     c_code varchar(50),
+     c_name varchar(50),
+     c_plan varchar(50),
+     c_calcul varchar(50),
+     c_fee varchar(50),
+     c_margin varchar(50),
+     c_unpaid varchar(50) );
+
+
+
+
+insert into ARM_table values ( NULL, '2018/07/01', 'SAMSUNG', 'Philip Moon', 'PKC001-CK008', 'Kakao', 'Standard', '3M', '37,000,000', '900,000', '100,000' );
+
+insert into ARM_table values ( NULL, '2018/09/01', 'LG Electornics', 'Daniel Moon', 'PKC003-CK011', 'ROKA', 'Professional', '6M', '94,000,000', '900,000', '300,000' );
+
+insert into ARM_table values ( NULL, '2019/02/01', 'Google', 'Steven Hwan', 'PKC007-CK562', 'Navy', 'Professional', '1Y', '1,000,000', '140,000', '80,000' );
+
+
+
