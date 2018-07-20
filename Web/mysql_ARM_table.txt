@@ -1,7 +1,5 @@
 체크박스(id)
 
-파트너 코드 (그냥읽어)	userCode 
-
 계산서 발행일 		billDate 
 
 파트너사			userCompany 
