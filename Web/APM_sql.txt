@@ -1,0 +1,19 @@
+모두다 partner Table
+
+체크박스		userCode
+계약시작일	contDate
+파트너코드	userCode
+회사명		userCompany
+이름		userName
+전화번호		userTel
+이메일		userEmail
+계산서발행일	billDate
+정산주기		calcul
+마진율		margin
+사업자등록증	business
+통장사본		account
+
+
+select contDate, userCode, userCompany, userName, userTel, userEmail, billDate, calcul, margin, business, account  FROM partner;
+
+
