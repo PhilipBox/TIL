@@ -1,0 +1,40 @@
+데이터 추가 쿼리문 
+
+<insert-partner>
+insert into partner (userCode, userName, userEmail, userPassword, userCompany, userTel, business)
+     values("PKC201", "홍길동", "hong@naver.com", "1234", "홍기동사", "010-1234-5678","등록완료");
+
+insert into partner (userCode, userName, userEmail, userPassword, userCompany, userTel, business)
+     values("PKC483", "앤트맨", "antMan@marvel.com", "112233", "마블컴퍼니", "010-9992-3334","등록완료");
+
+<insert-customer>
+insert into customer values( "PKC201", "PKC201-CK001", "홍고객사", "2018/11/01","CUSTOM", "3개월", "1,100,000", "333,000", "333,000");
+
+insert into customer values( "PKC201", "PKC201-CK002", "소녀냉면", "2016/04/01","STANDARD", "6개월", "900,000", "555,000", "111,000");
+
+
+insert into customer values( "PKC483", "PKC483-CK001", "와스프", "2017/12/01","PROFESSIONAL", "3개월", "11,000,000", "900,000", "400,000");
+
+insert into customer values( "PKC483", "PKC483-CK002", "아이언맨", "2018/05/01","STANDARD", "6개월", "90,000,000", "80,000,000", "10,000,000");
+
+insert into customer values( "PKC483", "PKC483-CK003", "베놈", "2017/03/01","CUSTOM", "3개월", "12,000,000", "8,000,000", "4,000,000");
+
+
+
+
+체크박스		c_code		// 커스토머
+계산서발행일	c_billDate		// 커스토머
+파트너사		userCompany	// 파트너	
+파트너명		userName	// 파트너
+고객코드		c_code		// 커스토머
+고객사명		c_name		// 커스토머
+요금제		c_plan		// 커스토머 
+정산주기		c_calcul		// 커스토머
+요금		c_fee		// 커스토머
+마진		c_margin		// 커스토머
+미납금		c_unpaid		// 커스토머
+
+
+
+출력 쿼리문 ★
+select t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer t1, partner t2 where t1.userCode = t2.userCode order by c_billDate;
