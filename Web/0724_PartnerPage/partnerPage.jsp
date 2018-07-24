@@ -607,12 +607,12 @@ t
 function callAjax_PRM_table_ok(c_code, fee, margin, unpaid){
        $.ajax({
 	        type: "post",
-	        url : "./APM_ajax.jsp",
+	        url : "./PRM_ajax.jsp",
 	        data: {
-	        	ajax_APM_table_c_code : $(c_code).val(),
-	        	ajax_APM_table_fee : $(fee).val(),
-	        	ajax_APM_table_margin : $(margin).val(),
-	        	ajax_APM_table_unpaid : $(unpaid).val(),
+	        	ajax_PRM_table_c_code : $(c_code).val(),
+	        	ajax_PRM_table_fee : $(fee).val(),
+	        	ajax_PRM_table_margin : $(margin).val(),
+	        	ajax_PRM_table_unpaid : $(unpaid).val(),
 	        },
 	        success: whenSuccess,
 	        error: whenError
