@@ -633,6 +633,10 @@ function searchBtn(){//ARM_search_btn
 	var send_cnt = 0;
 	var chkbox = $(".ARM_checkSelect");
 	
+	var APM_all_chkbox = document.getElementById("ARM_index_main");
+    $(APM_all_chkbox).attr("disabled", true);
+	
+	
 	for(var i=0; i<chkbox.length; i++) {
 		
 			if(chkbox[i].checked == true){
@@ -674,6 +678,10 @@ function searchBtn(){//ARM_search_btn
   	var send_array = Array();
 	var send_cnt = 0;
 	var chkbox = $(".ARM_checkSelect");
+	
+	var APM_all_chkbox = document.getElementById("ARM_index_main");
+    $(APM_all_chkbox).attr("disabled", false);
+	
 	
 	for(var i=0; i<chkbox.length; i++) {
 			if(chkbox[i].checked == true){
@@ -799,6 +807,7 @@ function searchBtn(){//ARM_search_btn
          return false;
       } else if (!(regEmail.test(email.value))){
     	 alert("이메일을 정확히 입력해주세요.");
+    	 //이메일을 확인하고 입력해주세요 로 추후 변경예정
     	 return false;
       }
    
@@ -875,8 +884,11 @@ function searchBtn(){//ARM_search_btn
 		var send_array = Array();
 		var send_cnt = 0;
 		var chkbox = $(".APM_checkSelect");
-	  
-	  
+		
+		var APM_all_chkbox = document.getElementById("ARM_index_main");
+	    $(APM_all_chkbox).attr("disabled", true);
+		
+        
 		for(var i=0; i<chkbox.length; i++) {
 			
 			if(chkbox[i].checked == true){
@@ -885,7 +897,7 @@ function searchBtn(){//ARM_search_btn
 				
 				send_array[send_cnt] = chkbox[i].value;
 				send_array[send_cnt] = send_array[send_cnt].replace("/", "");
-				
+
 				
 				APM_ChangeInputState_for_modification(send_array[send_cnt]);
 				
@@ -912,6 +924,11 @@ function searchBtn(){//ARM_search_btn
     	var send_array = Array();
     	var send_cnt = 0;
     	var chkbox = $(".APM_checkSelect");
+    	
+    	
+		var APM_all_chkbox = document.getElementById("APM_index_main");
+	    $(APM_all_chkbox).attr("disabled", false);
+    	
     	
     	for(var i=0; i<chkbox.length; i++) {
     			if(chkbox[i].checked == true){
@@ -1367,7 +1384,7 @@ textarea {
                                  <table class="table" id="APM_table" style="width: 1200px;">
                                     <thead class="thead-light">
                                        <tr>
-                                          <th scope="col" width="5px" nowrap><input type="checkbox" name="APM_index" id="APM_index_main" value="0"/></th>
+                                          <th scope="col" width="5px" nowrap><input type="checkbox" name="APM_index_main" id="APM_index_main" value="0" /></th>
                                           <th scope="col" width="10px" nowrap>계약시작일</th>
                                           <th scope="col" width="10px" nowrap>파트너코드</th>
                                           <th scope="col" width="10px" nowrap>회사명</th>
@@ -1411,7 +1428,7 @@ textarea {
                                        %>                                       
                                        
                                        
-                                          <th scope="row" width="2%"><input type="checkbox" class="APM_checkSelect" id="<%=APM_id%>" name="APM_index" value=<%=APM_id%>/></th>
+                                          <th scope="row" width="2%"><input type="checkbox" class="APM_checkSelect" id="<%=APM_id%>" name="APM_index" value=<%=APM_id%> /></th>
                                           <td width="5%"><%=APM_contDate%></td>
                                           <td width="8%"><INPUT type="text"
 			                                             NAME="<%=APM_id%>0" id="<%=APM_id%>0" SIZE="14"
