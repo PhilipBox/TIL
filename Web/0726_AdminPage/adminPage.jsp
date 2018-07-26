@@ -221,9 +221,9 @@ function searchBtn(){//ARM_search_btn
 			 return;
 		 }
 		 if(!((start_year=="")||(start_month=="")||(end_year=="")||(end_month==""))){
-			  startDate = start_year+"/"+start_month+"/01";
-			  endDate = end_year+"/"+end_month+"/01";
-		 }
+	           startDate = start_year+"/"+start_month+"/01";
+	           endDate = end_year+"/"+end_month+"/31";
+	      }
 		
 		RMsearch(startDate, endDate, customer_code, partner_code ); //callAjax_ARM_codeSearch
 
@@ -383,10 +383,11 @@ function searchBtn(){//ARM_search_btn
    	    ///////////////////////////////////////////////////////////////////////////////////////////////
    		////[APM] 각 버튼에 데이터 전송 함수들																	APM ajax function
    	    
+   		//// 0726
    	    function callAjax_APM_register_btn(){
    	        $.ajax({
    		        type: "post",
-   		        url : "./test.jsp",
+   		        url : "./adminPMRegister.jsp",
    		        data: {
    		        	ajax_APM_rgs_contract_date : $('#APM_register_contract_date').val(),
    	       			ajax_APM_rgs_company_name : $('#APM_register_company_name').val(),
@@ -757,13 +758,16 @@ function searchBtn(){//ARM_search_btn
 
    function APM_register_check() {
       var datetime_pattern = /^(19|20)\d{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[0-1])$/;
-
+      var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      var regPhone = /^[0-9]+$/;
+      
       var contract_date = document.PTNregister.APM_register_contract_date;
       var company_name = document.PTNregister.APM_register_company_name;
       var partner_name = document.PTNregister.APM_register_partner_name;
       var phone_number = document.PTNregister.APM_register_phone_number;
       var email = document.PTNregister.APM_register_email;
 
+      
       if (contract_date.value == '' || !(contract_date.value.length == 8)) {
          alert("계약시작일을 정확히 입력해주세요.");
          return false;
@@ -779,9 +783,23 @@ function searchBtn(){//ARM_search_btn
       } else if (phone_number.value == "") {
          alert("전화번호를 입력해주세요.");
          return false;
-      } else if (email.value == "") {
+      } else if (!(regPhone.test(phone_number.value))) {
+    	alert("숫자만 입력해 주세요.");
+    	 return false;
+      } else if (phone_number.value.length > 0 && phone_number.value.length < 10) {
+		alert("전화번호를 정확히 입력해주세요.");
+    	  // 1~9글자면 Error
+		return false;
+	  }else if (phone_number.value.length > 11) {
+		alert("전화번호를 정확히 입력해주세요.");
+		 // 12글자부터 글자수 초과 Error
+		return false;
+	  } else if (email.value == "") {
          alert("이메일을 입력해주세요.");
          return false;
+      } else if (!(regEmail.test(email.value))){
+    	 alert("이메일을 정확히 입력해주세요.");
+    	 return false;
       }
    
 	       	  callAjax_APM_register_btn();
