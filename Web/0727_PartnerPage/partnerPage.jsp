@@ -5,6 +5,8 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.io.PrintWriter"%>
 <%@ page import="java.text.*" %> 
+<%DecimalFormat format = new DecimalFormat("###,###");
+ %>
 
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -1515,6 +1517,14 @@ t
 																String fee = rsRM.getString("c_fee");
 																String margin = rsRM.getString("c_margin");
 																String unpaid = rsRM.getString("c_unpaid");
+																
+					                                             long c_fee_long = Long.parseLong(fee);
+					                                             long c_margin_long = Long.parseLong(margin);
+					                                             long c_unpaid_long = Long.parseLong(unpaid);
+
+					                                             fee = format.format(c_fee_long);
+					                                             margin = format.format(c_margin_long);
+					                                             unpaid = format.format(c_unpaid_long);
 														%>
 														<th scope="row"><input type="checkbox"
 															class="PRM_checkSelect" id="<%=companyCode%>"
@@ -1573,7 +1583,6 @@ t
 																String margin = rsRM2.getString("IFNULL(sum(c_margin),0)");
 																String unpaid = rsRM2.getString("IFNULL(sum(c_unpaid),0)");
 																
-																DecimalFormat format = new DecimalFormat("###,###");
 																
 																long value = Long.parseLong(fee);
 																fee = format.format(value);
