@@ -349,9 +349,6 @@ $(document)
 	   	     
 	   	      
 	   	      // APM
-	   	     
-   	      
-   	      
 	     	    $("#ARM_index_main").click(function(){
 	       	        //클릭되었으면
 	       	        if($("#ARM_index_main").prop("checked")){
@@ -363,7 +360,6 @@ $(document)
 	       	            $("input[name=ARM_index]").prop("checked",false);
 	       	        }
 	       	    })
-	       	    
 	       	     $("#APM_index_main").click(function(){
 	       	        //클릭되었으면
 	       	        if($("#APM_index_main").prop("checked")){
@@ -375,12 +371,6 @@ $(document)
 	       	            $("input[name=APM_index]").prop("checked",false);
 	       	        }
 	       	    })
-	   	      
-	   	      
-	   	      
-	   	   
-	   	      
-	   	      
    	    }); // END READY FUNCTION
 
 
@@ -488,7 +478,7 @@ $(document)
  	    function callAjax_APM_table_ok(table_userCode, table_userCompany,table_userName, table_userTel, table_email, table_billDate, table_calcul, table_margin){
    	        $.ajax({
    		        type: "post",
-   		        url : "./test.jsp",
+   		        url : "./adminPMSet.jsp",
    		        data: {
    		        	ajax_APM_table_userCode : $(table_userCode).val(),
    		        	ajax_APM_table_userCompany : $(table_userCompany).val(),
@@ -504,6 +494,19 @@ $(document)
    	     	});
    	    }// END 테이블 수정 후 확인 데이터 전송 함수
    	    
+   	    
+   	    
+ 	    function callAjax_APM_table_delete(c_code){
+   	    	$.ajax({
+   		        type: "post",
+   		        url : "./adminPMDelete.jsp",
+   		        data: {
+   		        	ajax_APM_table_c_code_for_delete : $(c_code).val(),
+   		        },
+   		        success: whenSuccess,
+   		        error: whenError
+   	     	});
+   	    }
    	    
    	    
    	    ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -644,23 +647,23 @@ $(document)
 		switch (ARM_fee) {
 		case 0:
 			frm.ARM_fee.value = '요금제미선택';
-			$("input[name='fee']").attr("readonly", true);
+			$("input[name='ARM_fee']").attr("readonly", true);
 			break;
 		case 1:
 			frm.ARM_fee.value = '100,000';
-			$("input[name='fee']").attr("readonly", true);
+			$("input[name='ARM_fee']").attr("readonly", true);
 			break;
 		case 2:
 			frm.ARM_fee.value = '400,000';
-			$("input[name='fee']").attr("readonly", true);
+			$("input[name='ARM_fee']").attr("readonly", true);
 			break;
 		case 3:
 			frm.ARM_fee.value = '1,000,000';
-			$("input[name='fee']").attr("readonly", true);
+			$("input[name='ARM_fee']").attr("readonly", true);
 			break;
 		case 4:
 			frm.ARM_fee.value = '';
-			$("input[name='fee']").attr("readonly", false);
+			$("input[name='ARM_fee']").attr("readonly", false);
 			break;
 
 		}
@@ -673,6 +676,10 @@ $(document)
 		input.style.display = "inline";
 		input.style.border = "2px solid blue";
 
+		var delete_btn = document.getElementById("ARM_delete");
+		delete_btn.style.visibility = "hidden";
+		
+		
 		var send_array = Array();
 		var send_cnt = 0;
 		var chkbox = $(".ARM_checkSelect");
@@ -731,6 +738,9 @@ $(document)
 		var input = document.getElementById("ARM_ok");
 		input.style.display = "none";
 
+		var delete_btn = document.getElementById("ARM_delete");
+		delete_btn.style.visibility = "visible";
+		
 		alert("수정이 완료되었습니다.");
 
 		var send_array = Array();
@@ -934,6 +944,11 @@ $(document)
 		input.style.display = "inline";
 		input.style.border = "2px solid blue";
 
+		
+		var delete_btn = document.getElementById("APM_delete");
+		delete_btn.style.visibility = "hidden";
+		
+		
 		/*
 		1#  체크박스에 체크되어있는 값들을 확인
 		2#  체크된 박스는 '확인'버튼을 누르기 전까지 다시 클릭을 할 수 없게 비활성화 시킴(disabled= true)
@@ -977,7 +992,12 @@ $(document)
 
 		var input = document.getElementById("APM_ok");
 		input.style.display = "none";
+		
+		var delete_btn = document.getElementById("APM_delete");
+		delete_btn.style.visibility = "visible";
 
+		
+		
 		alert("수정이 완료되었습니다.");
 
 		var send_array = Array();
@@ -1021,6 +1041,21 @@ $(document)
 
 	function APM_delete_btn_clicked() {
 		alert("삭제버튼이 눌렸습니다.");
+		
+		var send_array = Array();
+		var send_cnt = 0;
+		var chkbox = $(".APM_checkSelect");
+		
+		for (var i = 0; i < chkbox.length; i++) {
+			if (chkbox[i].checked == true) {
+
+				send_array[send_cnt] = chkbox[i].value;
+				send_array[send_cnt] = send_array[send_cnt].replace("/", "");
+				
+				APM_Delete_table_col(send_array[send_cnt]);
+				send_cnt++;
+			}
+		}
 	} //end APM_delete_btn_clicked()
 
 	function APM_ChangeInputState_for_modification(PM_table_id) {
@@ -1097,6 +1132,13 @@ $(document)
 				table_userName, table_userTel, table_email, table_billDate,
 				table_calcul, table_margin);
 
+	}
+	
+	
+	function APM_Delete_table_col(PM_table_id) {
+		var c_code = document.getElementById(PM_table_id + 0)
+
+		callAjax_APM_table_delete(c_code);
 	}
 </script>
 
@@ -1363,14 +1405,13 @@ textarea {
 												onclick="APM_register_check()"
 												style="border: 2px solid #737373;">등록</button>
 										</FORM>
-										&nbsp;&nbsp;
-										<textarea name=content cols="25" rows="3"
+										<textarea name=content cols="18" rows="2"
 											id="APM_register_contract_date_info"
 											style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">최초 계산서 발행일      숫자8자리 ex)20180405</textarea>
 										<SCRIPT type="text/javascript">
-											spacing(4);
+											spacing(20);
 										</SCRIPT>
-										<textarea name=content cols="45" rows="3"
+										<textarea name=content cols="45" rows="2"
 											id="APM_register_company_name_info"
 											style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">정확한 회사명을 입력해 주세요.
 기존 회사명과 다를 경우 새로 등록됩니다.</textarea>
@@ -1429,8 +1470,10 @@ textarea {
 										<SCRIPT type="text/javascript">
 											spacing(2);
 										</SCRIPT>
+							<!-- 
 										<textarea name=content cols="15" rows="1" id="page_info"
 											style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">1page 1/1</textarea>
+							 -->
 									</div>
 								</div>
 								<hr>
@@ -1457,7 +1500,7 @@ textarea {
 													<th scope="col" width="10px">이름</th>
 													<th scope="col" width="10px">전화번호</th>
 													<th scope="col" width="10px">이메일</th>
-													<th scope="col" width="10px">계산서발행일</th>
+													<th scope="col" width="10px">계산서 발행일</th>
 													<th scope="col" width="10px">정산주기</th>
 													<th scope="col" width="10px">마진율</th>
 													<th scope="col" width="10px">사업자등록증</th>
@@ -1602,22 +1645,21 @@ textarea {
 													name="ARM_register_btn" onclick="ARM_register_check()"
 													style="border: 2px solid #737373;">등록</button>
 											</FORM>
-											&nbsp;&nbsp;
-											<textarea name=content cols="30" rows="3"
+											<textarea name=content cols="20" rows="2"
 												id="ARM_bill_date_info"
-												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">해당건의 첫 계산서 발행일   숫자8자리 ex)20180405</textarea>
+												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">해당건의 계산서 발행일   숫자8자리 ex)20180405</textarea>
 											<SCRIPT type="text/javascript">
-												spacing(50);
+												spacing(58);
 											</SCRIPT>
-											<textarea name=content cols="45" rows="3"
+											<textarea name=content cols="45" rows="2"
 												id="ARM_company_name_info"
 												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">정확한 고객사명을 입력해 주세요.
 기존 고객사명과 다를 경우 새로 등록됩니다.</textarea>
 											<SCRIPT type="text/javascript">
-												spacing(46);
+												spacing(25);
 											</SCRIPT>
 
-											<textarea name=content cols="40" rows="3"
+											<textarea name=content cols="40" rows="2"
 												id="ARM_contract_unit_info"
 												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">매월청구 요금제:3개월
 6개월/1년 계약은 동일하게 선택</textarea>
@@ -1675,8 +1717,10 @@ textarea {
 													onclick="searchBtn();" name="ARM_search_btn"
 													style="border: 2px solid #737373;">검색</button>
 											</form>
+											<!--  
 											<textarea name=content cols="15" rows="1" id="page_info"
 												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">1page 1/1</textarea>
+										    -->
 										</div>
 									</div>
 									<hr>
