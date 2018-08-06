@@ -1,0 +1,43 @@
+
+1) 디비에 컬럼 추가
+
+alter table customer add id int AUTO_INCREMENT primary key;
+
+2) RM table while하는 부분에서 첫 번째 id 값 넣는곳에(맨위에) 															String id = rsARM.getString("id");
+로 변경.
+
+그 아래 변수명 바꾸기
+
+																id = "rm" + id + "_";
+
+
+
+3) 이거 찾기해서>>     function ARM_delete_btn_clicked() 
+ for문 지나고 맨 밑에 함수하나 추가 >>     totalTable();
+
+요거 추가하면 삭제하고 바로 전체 리셋됨
+
+
+4) 이거 찾기>> clear_input("ARM_fee"); 
+
+그 아래에 똑같이 추가 totalTable();
+
+
+여기까지하면, 변수명 id 변경과 삭제/등록 시 초기화해주는 기능 완료
+
+------
+
+4) 이거찾기해서>>		function APM_delete_btn_clicked()
+
+마찬가지로 for문 아래 함수하나 추가 call >> PMtotalTable(); 
+
+그 뭐냐 삭제하고나서 새롭게 update되는 table에는 사업자등록증/통장사본 버튼이 update안되어있음  (jsp에서 업데이트 해야할 듯 )
+
+
+이거 검색 >> clear_input("APM_register_email");
+아래에 
+PMtotalTable();  추가하기
+
+
+
+
