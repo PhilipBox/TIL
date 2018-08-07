@@ -6,6 +6,7 @@
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.text.*"%>
+<%@ page import="java.sql.*"%>
 <%
 	DecimalFormat format = new DecimalFormat("###,###");
 %>
@@ -94,35 +95,69 @@ table.type04 td {
 	cursor: pointer;
 }
 
+
+
 .dropdown {
-	position: relative;
-	display: inline-block;
+   position: relative;
+   display: inline-block;
 }
 
 .dropdown-content {
-	display: none;
-	position: absolute;
-	right: 0;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
+   display: none;
+   position: absolute;
+   right: 0;
+   background-color: #f9f9f9;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   z-index: 1;
+}
+
+.dropdown-event-content {
+   display: none;
+   position: absolute;
+   right: 0;
+   background-color: #f9f9f9;
+   min-width: 300px;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   z-index: 1;
+   overflow: auto;
 }
 
 .dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
+   color: black;
+   padding: 12px 16px;
+   text-decoration: none;
+   display: block;
+}
+
+.dropdown-event-content a {
+   color: black;
+   padding: 12px 16px;
+   text-decoration: none;
+   max-height: 300px;
+   display: block;
+   overflow: auto;
 }
 
 .dropdown-content a:hover {
-	background-color: #ffd659
+   background-color: #ffd659
+}
+
+.dropdown-event-content a:hover {
+   max-height: 700px;
+   background-color: #ffd659
 }
 
 .dropdown:hover .dropdown-content {
-	display: block;
+   display: block;
 }
+
+.dropdown:hover .dropdown-event-content {
+   max-height: 300px;
+   display: block;
+}
+
+
 
 .dropdown:hover .dropbtn {
 	background-color: #3e8e41;
@@ -1617,18 +1652,105 @@ textarea {
                            -->
 								</li>
 
-								<li>
-									<div id="notice_menu" class="dropdown"
-										style="margin-top: 10px;">
 
-										<span class="cuser-name ng-binding"> 알림 센터</span> <span
-											class="caret"></span>
-										<div class="dropdown-content" style="right: 0;">
-											<a class="hidden-xs" href="#" dropdown-toggle=""
-												disabled="disabled" aria-expanded="true"> 알림이 없습니다. </a>
-										</div>
-									</div>
-								</li>
+
+<li>
+                           <div id="notice_menu" class="dropdown"
+                              style="margin-top: 10px;">
+
+                              <span class="cuser-name ng-binding"> 알림 센터</span> <span
+                                 class="caret"></span>
+                              <div class="container-fluid">
+                                 <div class="col-md-12">
+                                    <div id="eventFrame" class="dropdown-event-content"
+                                       style="right: 0; text-align: left">
+                                       <a id="defaultA" class="hidden-xs" href="#" dropdown-toggle=""
+                                          disabled="disabled" aria-expanded="true"> 알림이 없습니다. </a>
+                                       <%
+                                          conn = DatabaseUtil.getConnection();
+                                          String sqlNT = "select * from admin_notification";
+                                          PreparedStatement pstmtNT = conn.prepareStatement(sqlNT);
+                                          ResultSet rsNT = null;
+                                          rsNT = pstmtNT.executeQuery();
+
+                                          int n;
+
+                                          if (rsNT.next()) {
+                                             n = 0;
+                                          } else {
+                                             n = -1;
+                                          }
+                                       %>
+                                       <script>
+                                          if (
+                                       <%=n%>
+                                          == -1) {
+                                             $('#defaultA').css(
+                                                   "display",
+                                                   "display");
+                                             $('#eventFrame')
+                                                   .css(
+                                                         "min-width",
+                                                         "160px");
+                                          } else {
+                                             $('#defaultA').css(
+                                                   "display",
+                                                   "none");
+                                             $('#eventFrame')
+                                                   .css(
+                                                         "min-width",
+                                                         "700px");
+                                          }
+                                       </script>
+                                    
+                                     <%
+                                          rsNT = pstmtNT.executeQuery();
+
+                                          while (rsNT.next()) {
+                                             String partnerCode = rsNT.getString("partnerCode").toString();
+                                             String customerCode = rsNT.getString("customerCode").toString();
+                                             String customerFee = rsNT.getString("customerFee").toString();
+                                             String customerMargin = rsNT.getString("customerMargin").toString();
+                                             String customerUnpaid = rsNT.getString("customerUnpaid").toString();
+
+                                             String date = rsNT.getString("date").toString();
+                                             String message = rsNT.getString("message").toString();
+                                             String noti = rsNT.getString("messageCheck").toString();
+                                             int notiResponse = Integer.parseInt(noti);
+                                             if (notiResponse == -1) {
+                                                out.print("<a>" + "<div class='col-md-12'>");
+                                                out.print("<div class='col-md-9'>");
+                                                out.print(partnerCode + "의 "+ customerCode + "에 대한 " + message + 
+                                                      "<br>" + "<small>" + date + "</small>" + 
+                                                      "<br><small style='color: #428BCA'>▼수정내역▼ "+"<br>요금: "+customerFee + "원 마진: " + customerMargin + "원 미수금: " + customerUnpaid + "원</small>");
+                                                out.print("</div>");
+                                                out.print("<div class='col-md-3' >");
+                                                out.print("<button class='btn btn-primary ng-scope' type='button' style=text-align:cne>수락</button>" +" "+"<button class='btn btn-link ng-scope' type='button'>거절</button>");
+                                                out.print("</div>");
+                                                out.print("</div></a>");
+                                             } else if(notiResponse == -2){
+                                                out.print("<a>" + "<div class='col-md-12'>");
+                                                out.print("<div class='col-md-9'>");
+                                                out.print(partnerCode + "의 "+ customerCode + "에 대한 " + message + "<br>" + "<small>" + date + "</small>");
+                                                out.print("</div>");
+                                                out.print("<div class='col-md-3' >");
+                                                out.print("<button class='btn btn-primary ng-scope' type='button' style=text-align:cne>수락</button>" +" "+"<button class='btn btn-link ng-scope' type='button'>거절</button>");
+                                                out.print("</div>");
+                                                out.print("</div></a>");
+                                             }
+                                          }
+                                       %>
+                                       
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+								
+								
+								
+								
 							</ul>
 						</li>
 						<!-- end ngIf: CurrentUser.userid -->
