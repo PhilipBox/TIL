@@ -23,6 +23,36 @@
 
 </head>
 
+<!-- paging -->
+<script>
+function readPagingRM(curPage, countList) {
+	alert("adminSearchRM"+curPage+" / "+countList);
+	$.ajax({
+		type : "post",
+		url : "./adminSearchRM.jsp",
+		data : {
+			startDate : $('#startDate').val(),
+			endDate : $('#endDate').val(),
+			customer_code : $('#customer_code').val(),
+			partner_code : $('#partner_code').val(),
+			
+			curPageC : curPage,
+			countListC : countList
+
+		},
+		success : ssSuccess,
+		error : ssSuccess
+	});
+	
+}
+function ssSuccess(resdata){
+    $("#divTable").html(resdata);
+   // console.log(resdata);
+}
+function ssError(){
+    alert("Error");
+}
+</script>
 
 <!-- 지환 아작스 함수 -->
 <script type="text/javascript">
@@ -63,9 +93,34 @@
 
 
 <body>
+<%//curPage,
+Connection conn = DatabaseUtil.getConnection();
+String scurPage_customer = request.getParameter("curPageC");
+int countListC = 10;
+
+
+if(scurPage_customer==null)
+	scurPage_customer="1";
+int curPageC = Integer.parseInt(scurPage_customer);
+
+int curRowC= (curPageC-1)*countListC;
+
+/*
+	// 파트너테이블
+	Statement stmt_susuC = conn.createStatement();
+
+	//실적관리 db로딩
+	String sql_susuC = "select count(*) FROM CUSTOMER;";
+	stmt_susuC.executeQuery(sql_susuC);
+	ResultSet rs_susuC = null;
+	rs_susuC = stmt_susuC.executeQuery(sql_susuC);
+	rs_susuC.next();
+	
+	*/
+%>
 
 	<%
-		Connection conn = DatabaseUtil.getConnection();
+		
 		
 		PreparedStatement pstmt = null;
 		PreparedStatement pstmt2 = null;
@@ -76,16 +131,18 @@
 		String customer_code = request.getParameter("customer_code");
 		String partner_code = request.getParameter("partner_code");
 
+		//out.print("sD "+startDate +" / eD "+endDate);
+		
 		String sql;
 		String sql2;
 
 		if (customer_code.equals("") && partner_code.equals("")) {
 			//기간만
 			
-			sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and DATE(t1.c_billDate) between ? and ? order by c_billDate";
-			sql2 = "select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and DATE(t1.c_billDate) between ? and ? order by c_billDate";
+			sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and DATE(t1.c_billDate) between ? and ? order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
+			sql2 = "select IFNULL(count(c_code), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and DATE(t1.c_billDate) between ? and ? order by c_billDate";
 // select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0)   FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and DATE(t1.c_billDate) between '2018/07/01' and '2018/09/01' order by c_billDate;
-			
+			System.out.println("기간만");
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, startDate);
 			pstmt.setString(2, endDate);
@@ -99,20 +156,24 @@
 			if (!partner_code.equals("")) {
 		
 				if (startDate.equals("") || endDate.equals("")) {
+					startDate="";
+					endDate="";
+					System.out.println("파트너만");
 					//파트너만
-					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.userCode=? order by c_billDate";
-					sql2 = "select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.userCode=? order by c_billDate";
+					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.userCode=? order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
+					sql2 = "select IFNULL(count(c_code), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.userCode=? order by c_billDate";
 					
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, partner_code);
 					
 					pstmt2 = conn.prepareStatement(sql2);
 					pstmt2.setString(1, partner_code);
-				} else { 
+					
+				} else { 	System.out.println("파트너+기간");
 					//파트너 + 기간
 								//and t1.userCode="PKC222" order by c_billDate
-					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.userCode=? order by c_billDate";
-					sql2 = "select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.userCode=? order by c_billDate";
+					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.userCode=? order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
+					sql2 = "select IFNULL(count(c_code), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.userCode=? order by c_billDate";
 
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, startDate);
@@ -127,21 +188,24 @@
 			} //怨좉컼
 			else if (!customer_code.equals("")) {
 				//고객
-				if (startDate.equals("") || endDate.equals("")) {
+				if (startDate.equals("") || endDate.equals("")) {	System.out.println("고객만");
 					//고객만
 					//and t1.c_code="PKC222-CK004"
-					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.c_code=? order by c_billDate";
-					sql2 = "select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.c_code=? order by c_billDate";
+					startDate="";
+					endDate="";
+					sql = "select t1.id, t2.userCode, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.c_code=? order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
+					sql2 = "select IFNULL(count(c_code), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and t1.c_code=? order by c_billDate";
 
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, customer_code);
 					
 					pstmt2 = conn.prepareStatement(sql2);
 					pstmt2.setString(1, customer_code);
-				} else { 
+				} else { 	
+					System.out.println("고객+기간");
 					//고객+ 기간
-					sql = "select t2.userCode, t1.id, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.c_code=? order by c_billDate";
-					sql2 = "select IFNULL(SUM(c_fee), 0), IFNULL(SUM(c_margin), 0), IFNULL(SUM(c_unpaid), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.c_code=? order by c_billDate";
+					sql = "select t2.userCode, t1.id, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.c_code=? order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
+					sql2 = "select IFNULL(count(c_code), 0) FROM customer as t1 join partner as t2 on t1.userCode = t2.userCode and (DATE(t1.c_billDate) between ? and ?) and t1.c_code=? order by c_billDate";
 
 					pstmt = conn.prepareStatement(sql);
 					pstmt.setString(1, startDate);
@@ -189,14 +253,23 @@
 		
 		ResultSet rsRM2 = null;
 		rsRM2 = pstmt2.executeQuery();
+		rsRM2.next();
 	%>
+	
+													
 
 	<div id="divTable">
+			<div style="display:none;">
+					<input id="startDate" name = "startDate" value=<%=startDate%>> 
+					<input id="endDate" name = "endDate" value=<%=endDate%>> 
+					<input id="customer_code" name = "customer_code" value=<%=customer_code%>> 
+					<input id="partner_code" name = "partner_code" value=<%=partner_code%>> 
+					</div>
 										<div style="margin: 5px">
 											<h3 style="display: inline-block; margin-right: 10px;">내역</h3>
-
+											<!-- 전체버튼 디스플레이 inline-block 이었음 -->
 											<button
-												style="display: inline-block; vertical-align: baseline;"
+												style="display: none; vertical-align: baseline;"
 												class="btn" onclick="totalTable();">전체</button>
 
 											<button id="currentMonth" class="btn" name="currentMonth"
@@ -230,7 +303,35 @@
 											<tbody>
 				<tr>
 
+<%
+	int countPageC = 5;
+	int totalCountC = rsRM2.getInt("IFNULL(count(c_code), 0)");
+	
+	System.out.println("totalCount "+ totalCountC);
+	
+	int totalPageC = totalCountC / countListC;
+
+	
+	if (totalCountC % countListC > 0) totalPageC++;
+	if (totalPageC < curPageC) {
+
+		curPageC = totalPageC;
+
+	}
+	
+	int startPageC = ((curPageC - 1) / countPageC) * countPageC + 1;
+	
+	int endPageC = startPageC + countPageC -1;
+
+	if (endPageC > totalPageC) endPageC = totalPageC;
+
+	
+%>
+
 					<%
+					long customerFee = 0;
+					long customerMargin = 0;
+					long customerUnpaid = 0;
 						while (rsARM.next()) {
 							String id = rsARM.getString("id");
 							String billDate = rsARM.getString("c_billDate");
@@ -250,14 +351,20 @@
 		                     long c_margin_long = Long.parseLong(c_margin);
 		                     long c_unpaid_long = Long.parseLong(c_unpaid);
 
+		                     customerFee += c_fee_long;
+								customerMargin += c_margin_long;
+								customerUnpaid += c_unpaid_long;
+							
 		                     c_fee = format.format(c_fee_long);
 		                     c_margin = format.format(c_margin_long);
 		                     c_unpaid = format.format(c_unpaid_long);
 							
 		                     
-		                     System.out.println(id);
+		                     //System.out.println(id);
 							
 					%>
+					
+					
 					<th scope="row" width="2%"><input type="checkbox"
 						class="ARM_checkSelect" id="<%=id%>" name="ARM_index"
 						value=<%=id%> /></th>
@@ -295,20 +402,12 @@
 												
 														%>
 														<%
-															while (rsRM2.next()) {
-																//c_margin c_unpaid
-																//String str = String.format("%,d", i); //%,d",
-																String fee = rsRM2.getString("IFNULL(SUM(c_fee), 0)"); 
-																String margin = rsRM2.getString("IFNULL(SUM(c_margin), 0)");
-																String unpaid = rsRM2.getString("IFNULL(SUM(c_unpaid), 0)");
-																
-																long value = Long.parseLong(fee);
-																fee = format.format(value);
-																value = Long.parseLong(margin);
-																margin = format.format(value);
-																value = Long.parseLong(unpaid);
-																unpaid = format.format(value);
-																
+														String fee,margin,unpaid;
+														
+														fee = format.format(customerFee); 
+														margin = format.format(customerMargin); 
+														unpaid = format.format(customerUnpaid); 
+														
 																
 														%>
 												<tr>
@@ -325,16 +424,43 @@
 													<td>
 													<%=unpaid %>
 													</td>
-													<%} %>
+									
 												</tfoot>
 		</table>
+		<div id="pagination" style=text-align:center>
+												<%
+													if (curPageC > 1) {
+
+														out.print("<button type='button' onclick='readPagingRM(" + 1 + ", " + countListC
+																+ ");' class='btn btn-default'> << 처음</button>");
+														//		out.print("<a href=\"?scurPage_partenr=" + 1 + "\">처음</a>");
+														//out.print("<a href=\"?curPage=" + (curPage - 1) + "\">< 이전</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + (curPageC - 1) + ", " + countListC
+																+ ");' class='btn btn-default'>< 이전</button>");
+
+													}
+													for (int i = startPageC; i < endPageC + 1; i++) {
+														//out.print("<a href=\"?scurPage_partenr=" + i + "\">"+i+"</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + i + ", " + countListC
+																+ ");' class='btn btn-default'>" + i + "</button>");
+													}
+													if (curPageC < totalPageC) {
+														//out.print("<a href=\"?scurPage_partenr=" + (curPage + 1) + "\">다음 ></a>");
+														out.print("<button type='button' onclick='readPagingRM(" + (curPageC + 1) + ", " + countListC
+																+ ");' class='btn btn-default'> > 다음</button>");
+
+													}
+													if (endPageC < totalPageC)
+														//out.print("<a href=\"?scurPage_partenr=" + totalPage + "\">끝</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + totalPageC + ", " + countListC
+																+ ");' class='btn btn-default'> >> 끝</button>");
+												%>
+											</div>
+		
+		
 	</div>
 
-<%
-pstmt.close();
-pstmt2.close();
-conn.close();
-%>
+<%%>
 
 </body>
 

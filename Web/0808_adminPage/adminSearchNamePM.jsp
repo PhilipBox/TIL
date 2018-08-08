@@ -20,7 +20,32 @@
 <title></title>
 
 </head>
+<script>
+function readPagingPM(curPage, countList) {
+	//alert("adminSearch에 있어~~~~~~~!"+curPage+" / "+countList);
+	$.ajax({
+		type : "post",
+		url : "./adminSearchNamePM.jsp",
+		data : {
+			curPageP : curPage,
+			countList : countList,
+			name : $('#userName').val()
 
+		},
+		success : PMSuccess,
+		error : PMError
+	});
+	
+}
+function PMSuccess(resdata){
+	// alert("지금 성공");
+     $("#divTableP").html(resdata);
+     console.log(resdata);
+ }
+ function PMError(){
+     alert("Error");
+ }
+</script>
 
 
 <body>
@@ -29,11 +54,12 @@
 	<%
 		Connection conn = DatabaseUtil.getConnection();
 
-		PreparedStatement pstmt = null;
+	/*	
+	PreparedStatement pstmt = null;
 
 		String sql;
 
-		String name = request.getParameter("name");
+		
 
 		
 		sql = "select * from partner where userName=?";
@@ -45,6 +71,7 @@
 
 		ResultSet rsPM = null;
 		rsPM = pstmt.executeQuery();
+		*/
 	%>
 	<div id="divTableP">
 										<form action="adminImgSet.jsp" method="post"
@@ -73,7 +100,8 @@
 												<tr>
 
 													<%
-														/*String scurPage_partenr = request.getParameter("scurPage_partenr");
+														String name = request.getParameter("name");
+														String scurPage_partenr = request.getParameter("curPageP");
 														int countList = 10;
 														if (scurPage_partenr == null)
 															scurPage_partenr = "1";
@@ -81,33 +109,36 @@
 
 														int curRow = (curPage - 1) * countList;
 														// 파트너테이블
-														Statement stmt_susu = conn.createStatement();
-
-														//실적관리 db로딩
-														String sql_susu = "select count(*) FROM partner;";
-														stmt_susu.executeQuery(sql_susu);
-														ResultSet rs_susu = null;
-														rs_susu = stmt_susu.executeQuery(sql_susu);
-														rs_susu.next();*/
-													%>
-													<%
 														// 파트너테이블
-													
-														/*
-														Statement stmtPM = conn.createStatement();
+														PreparedStatement pstmt_susu = null;
 
 														//실적관리 db로딩
-														String sqlPM = "select * from partner" + " LIMIT " + curRow + ", " + countList;//"select *  FROM partner;";
-														stmtPM.executeQuery(sqlPM);
-														ResultSet rsPM = null;
-														rsPM = stmtPM.executeQuery(sqlPM);
-														*/
+														String sql_susu = "select IFNULL(count(*),0) FROM partner where userName=?";
+														pstmt_susu = conn.prepareStatement(sql_susu);
+														pstmt_susu.setString(1, name);
+														ResultSet rsPM_susu = null;
+														rsPM_susu = pstmt_susu.executeQuery();
+														rsPM_susu.next();
+														
+													%>
+													<%
+													PreparedStatement pstmt = null;
+
+													String sql = "select * from partner where userName=?" + " LIMIT " + curRow + ", " + countList;//"select *  FROM partner;";
+													pstmt = conn.prepareStatement(sql);
+
+													pstmt.setString(1, name);
+
+													ResultSet rsPM = null;
+													rsPM = pstmt.executeQuery();
+													
 													%>
 
 													<%
-													/*
+													
 														int countPage = 5;
-														int totalCount = rs_susu.getInt("count(*)");
+														int totalCount = rsPM_susu.getInt("IFNULL(count(*),0)");
+														
 
 														int totalPage = totalCount / countList;
 
@@ -125,7 +156,7 @@
 
 														if (endPage > totalPage)
 															endPage = totalPage;
-														*/
+														
 													%>
 
 													<%
@@ -148,7 +179,12 @@
 													%>
 
 
-													<th scope="row" width="2%"><input type="checkbox"
+				
+													<th scope="row" width="2%">
+													<input type="checkbox"
+														style="display:none;"id="userName" name="userName"
+														value=<%=name%> />
+													<input type="checkbox"
 														class="APM_checkSelect" id="<%=APM_id%>" name="APM_index"
 														value=<%=APM_id%> /></th>
 													<td width="5%"><%=APM_contDate%></td>
@@ -209,8 +245,7 @@
 															<input type='file' id="businessImgDB_<%=APM_id%>"
 																name="businessImgDB_<%=APM_id%>"
 																style="width: 0px; height: 0px" />
-															<button class="btn btn-default" onfocus="this.blur();"
-																onclick="upload_BDB(this.form.businessImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
+															<button class="btn btn-default" onfocus="this.blur();" onclick="upload_BDB(this.form.businessImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
 
 														</div> <%
  	}
@@ -292,11 +327,11 @@
 											</table>
 											<div id="pagination" style=text-align:center>
 												<%
-												/*
+												
 													if (curPage > 1) {
 
 														out.print("<button type='button' onclick='readPagingPM(" + 1 + ", " + countList
-																+ ");' class='btn btn-default'> << 처음</button>");
+																+");' class='btn btn-default'> << 처음</button>");
 														//		out.print("<a href=\"?scurPage_partenr=" + 1 + "\">처음</a>");
 														//out.print("<a href=\"?curPage=" + (curPage - 1) + "\">< 이전</a>");
 														out.print("<button type='button' onclick='readPagingPM(" + (curPage - 1) + ", " + countList
@@ -318,7 +353,7 @@
 														//out.print("<a href=\"?scurPage_partenr=" + totalPage + "\">끝</a>");
 														out.print("<button type='button' onclick='readPagingPM(" + totalPage + ", " + countList
 																+ ");' class='btn btn-default'> >> 끝</button>");
-														*/
+														
 												%>
 											</div>
 										</form>
