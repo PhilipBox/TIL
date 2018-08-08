@@ -7,6 +7,7 @@
 <%@ page import="java.sql.Connection"%>
 <%@ page import="java.text.*"%>
 <%@ page import="java.sql.*"%>
+
 <%
 	DecimalFormat format = new DecimalFormat("###,###");
 %>
@@ -484,12 +485,12 @@ function upload_A(file, id){
 <!-- DB 페이징 -->
 <script>
 function readPagingPM(curPage, countList) {
-	//alert("readPagingPM"+curPage+" / "+countList);
+	alert("adminPage !!"+curPage+" / "+countList);
 	$.ajax({
 		type : "post",
 		url : "./adminReadPM.jsp",
 		data : {
-			curPage : curPage,
+			curPageP : curPage,
 			countList : countList
 
 		},
@@ -500,7 +501,7 @@ function readPagingPM(curPage, countList) {
 }
 
 function readPagingRM(curPage, countList) {
-	alert("readPagingRM"+curPage+" / "+countList);
+	alert("admin_readPagingRM"+curPage+" / "+countList);
 	$.ajax({
 		type : "post",
 		url : "./adminReadRM.jsp",
@@ -532,7 +533,7 @@ function searchCompany() {
 }
 
 function PMtotalSearch() {
-	alert("들어옴");
+
 	$.ajax({
 		type : "post",
 		url : "./adminTotalSearchPM.jsp",
@@ -544,7 +545,7 @@ function PMtotalSearch() {
 	});
 }
 function PMsearchName() {
-	alert("들어옴");
+	
 	$.ajax({
 		type : "post",
 		url : "./adminSearchNamePM.jsp",
@@ -682,7 +683,7 @@ function searchBtn(){//ARM_search_btn
 
 	}
 function RMtotalSearch() {
-	alert("들어옴");
+	alert("처음이양");
 	$.ajax({
 		type : "post",
 		url : "./adminTotalSearchRM.jsp",
@@ -703,7 +704,7 @@ function RMtotalSearch() {
 				startDate : startDate,
 				endDate : endDate,
 				customer_code : customer_code,
-		partner_code : partner_code
+				partner_code : partner_code
 			},
 			success : ssSuccess,
 			error : ssError
@@ -725,10 +726,10 @@ $(document)
 		function() {
 			$("#flipP").click(function() {
 				  
-				$("#flipContentP").slideToggle("slow");
+				$("#flipContentP").slideToggle("normal");
 			});
 			$("#flipRM").click(function() {
-				$("#flipContentRM").slideToggle("slow");
+				$("#flipContentRM").slideToggle("normal");
 			});
 		});
 
@@ -848,9 +849,7 @@ $(document)
    	     	});
    	    }
    	    
-   	    
-   	    
-   	    ///////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////
 
    	    function modify_accept_btn(partnerCode,c_fee,c_margin,c_unpaid){
    	    	alert("수정-수락 버튼 ON");
@@ -908,12 +907,6 @@ $(document)
            error: whenError
          });
       }
-     
-   	    
-   	    
-   	    
-   	    
-   	    
    	    
    	    ///////////////////////////////////////////////////////////////////////////////////////////////
    	    
@@ -1102,7 +1095,7 @@ $(document)
 		clear_input("ARM_contract_unit");
 		clear_input("ARM_fee");
 
-		totalTable();
+		//totalTable();
 		
 	}
 
@@ -1193,7 +1186,7 @@ $(document)
 			}
 		}
 		
-		totalTable();
+		//totalTable();
 		
 	} //end ARM_delete_btn_clicked()
 
@@ -1231,7 +1224,7 @@ $(document)
 		// 하나의 배열로 담을 때 아래처럼 처리함. 아직 쓸일은 없더라.
 		// $("#array").val(send_array);
 
-		totalTable();
+		//totalTable();
 		
 	}
 
@@ -2091,7 +2084,7 @@ textarea {
 												<tr>
 
 													<%
-														String scurPage_partenr = request.getParameter("scurPage_partenr");
+														String scurPage_partenr = request.getParameter("curPageP");
 														int countList = 10;
 														if (scurPage_partenr == null)
 															scurPage_partenr = "1";
@@ -2466,8 +2459,9 @@ textarea {
 										<div style="margin: 5px">
 											<h3 style="display: inline-block; margin-right: 10px;">내역</h3>
 
-											<button
-												style="display: inline-block; vertical-align: baseline;"
+											<!-- 전체버튼 디스플레이 inline-block 이었음 -->
+											<button	
+												style="display: none; vertical-align: baseline;"
 												class="btn" onclick="totalTable();">전체</button>
 
 											<button id="currentMonth" class="btn" name="currentMonth"
@@ -2554,7 +2548,7 @@ int curRowC= (curPageC-1)*countListC;
 	int endPageC = startPageC + countPageC -1;
 
 	if (endPageC > totalPageC) endPageC = totalPageC;
-
+	
 	
 %>
 
@@ -2582,10 +2576,11 @@ int curRowC= (curPageC-1)*countListC;
 															long c_margin_long = Long.parseLong(c_margin);
 															long c_unpaid_long = Long.parseLong(c_unpaid);
 															
-															customerFee += c_fee_long;
-															customerMargin += c_margin_long;
-															customerUnpaid += c_unpaid_long;
+															 customerFee += c_fee_long;
+																customerMargin += c_margin_long;
+																customerUnpaid += c_unpaid_long;
 															
+
 															c_fee = format.format(c_fee_long);
 															c_margin = format.format(c_margin_long);
 															c_unpaid = format.format(c_unpaid_long);

@@ -76,7 +76,7 @@
 	String c_unpaid = Long.toString(c_margin_cut);
     // 요금,마진,미수금 : 30%계산 및 형변환 부분 - END 	
     
-   	String c_code = "PKC201-ABC259";	// 이게 priamry key인데, 아직은 할당하는 알고리즘이 읎어서.... 한번 추가할때마다 숫자 바꿔줘야행
+   	String c_code = "PKC201-CK259";	// 이게 priamry key인데, 아직은 할당하는 알고리즘이 읎어서.... 한번 추가할때마다 숫자 바꿔줘야행
    
    String sql = "insert into customer(userCode, c_code, c_name, c_billDate, c_plan, c_calcul, c_fee, c_margin, c_unpaid) values(?,?,?,?,?,?,?,?,?)";
    PreparedStatement pstmt = conn.prepareStatement(sql);

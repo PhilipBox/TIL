@@ -59,9 +59,9 @@ function ssError(){
 <div id="divTable">
 										<div style="margin: 5px">
 											<h3 style="display: inline-block; margin-right: 10px;">내역</h3>
-
+											<!-- 전체버튼 디스플레이 inline-block 이었음 -->
 											<button
-												style="display: inline-block; vertical-align: baseline;"
+												style="display: none; vertical-align: baseline;"
 												class="btn" onclick="totalTable();">전체</button>
 
 											<button id="currentMonth" class="btn" name="currentMonth"

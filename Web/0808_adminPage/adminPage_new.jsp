@@ -5,8 +5,11 @@
 <%@ page import="java.sql.ResultSet"%>
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.Connection"%>
-<%@ page import="java.text.*" %> 
-<% 	DecimalFormat format = new DecimalFormat("###,###"); %>
+<%@ page import="java.text.*"%>
+<%@ page import="java.sql.*"%>
+<%
+	DecimalFormat format = new DecimalFormat("###,###");
+%>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setCharacterEncoding("UTF-8");
@@ -23,8 +26,30 @@
 	out.print("db 연결 정보 " + conn);
 %>
 <style>
-.filebox label { display: inline-block; padding: .5em .75em; color: #999; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #fdfdfd; cursor: pointer; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; } .filebox input[type="file"] { /* 파일 필드 숨기기 */ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
+.filebox label {
+	display: inline-block;
+	padding: .5em .75em;
+	color: #999;
+	font-size: inherit;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #fdfdfd;
+	cursor: pointer;
+	border: 1px solid #ebebeb;
+	border-bottom-color: #e2e2e2;
+	border-radius: .25em;
+}
 
+.filebox input[type="file"] { /* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
 
 #homeLogo {
 	margin: 10px;
@@ -70,35 +95,69 @@ table.type04 td {
 	cursor: pointer;
 }
 
+
+
 .dropdown {
-	position: relative;
-	display: inline-block;
+   position: relative;
+   display: inline-block;
 }
 
 .dropdown-content {
-	display: none;
-	position: absolute;
-	right: 0;
-	background-color: #f9f9f9;
-	min-width: 160px;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
+   display: none;
+   position: absolute;
+   right: 0;
+   background-color: #f9f9f9;
+   min-width: 160px;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   z-index: 1;
+}
+
+.dropdown-event-content {
+   display: none;
+   position: absolute;
+   right: 0;
+   background-color: #f9f9f9;
+   min-width: 300px;
+   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+   z-index: 1;
+   overflow: auto;
 }
 
 .dropdown-content a {
-	color: black;
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
+   color: black;
+   padding: 12px 16px;
+   text-decoration: none;
+   display: block;
+}
+
+.dropdown-event-content a {
+   color: black;
+   padding: 12px 16px;
+   text-decoration: none;
+   max-height: 300px;
+   display: block;
+   overflow: auto;
 }
 
 .dropdown-content a:hover {
-	background-color: #ffd659
+   background-color: #ffd659
+}
+
+.dropdown-event-content a:hover {
+   max-height: 700px;
+   background-color: #ffd659
 }
 
 .dropdown:hover .dropdown-content {
-	display: block;
+   display: block;
 }
+
+.dropdown:hover .dropdown-event-content {
+   max-height: 300px;
+   display: block;
+}
+
+
 
 .dropdown:hover .dropbtn {
 	background-color: #3e8e41;
@@ -394,6 +453,7 @@ function upload_A(file, id){
 	}
 </script>
 
+
 <script>
 	function editBusiness(id) {
 		
@@ -419,6 +479,42 @@ function upload_A(file, id){
 		$(divID_R).css("display", "block");
 	}
 	
+</script>
+
+<!-- DB 페이징 -->
+<script>
+function readPagingPM(curPage, countList) {
+	//alert("readPagingPM"+curPage+" / "+countList);
+	$.ajax({
+		type : "post",
+		url : "./adminReadPM.jsp",
+		data : {
+			curPage : curPage,
+			countList : countList
+
+		},
+		success : PMSuccess,
+		error : PMError
+	});
+	
+}
+
+function readPagingRM(curPage, countList) {
+	alert("readPagingRM"+curPage+" / "+countList);
+	$.ajax({
+		type : "post",
+		url : "./adminReadRM.jsp",
+		data : {
+			curPageC : curPage,
+			countListC : countList
+
+		},
+		success : ssSuccess,
+		error : ssSuccess
+	});
+	
+}
+
 </script>
 
 <!-- 파트너 검색 -->
@@ -473,6 +569,7 @@ function PMsearchCompany() {
 	});
 }// END 등록 버튼 데이터 전송 함수
  function PMSuccess(resdata){
+	// alert("지금 성공");
      $("#divTableP").html(resdata);
      console.log(resdata);
  }
@@ -691,7 +788,7 @@ $(document)
    	    }// END 기간 검색 데이터 전송 함수
 
    	    
-   	    function callAjax_ARM_register_btn(){
+   	    function callAjax_ARM_register_btn(p_marginID){
    	        $.ajax({
    		        type: "post",
    		        url : "./adminRMRegister.jsp",
@@ -702,7 +799,8 @@ $(document)
    		        	ajax_ARM_partner_name : $('#ARM_partner_name').val(),
    		        	ajax_ARM_rate_system : $('#ARM_rate_system').val(),
    		        	ajax_ARM_contract_unit : $('#ARM_contract_unit').val(),
-   		        	ajax_ARM_fee : $('#ARM_fee').val()
+   		        	ajax_ARM_fee : $('#ARM_fee').val(),
+   		        	p_margin : $(p_marginID).val(),
    		        },
    		        success: whenSuccess,
    		        error: whenError
@@ -731,6 +829,7 @@ $(document)
    		        	ajax_ARM_table_fee : $(fee).val(),
    		        	ajax_ARM_table_margin : $(margin).val(),
    		        	ajax_ARM_table_unpaid : $(unpaid).val(),
+   		        	
    		        },
    		        success: whenSuccess,
    		        error: whenError
@@ -752,9 +851,72 @@ $(document)
    	    
    	    
    	    ///////////////////////////////////////////////////////////////////////////////////////////////
-   		////[APM] 각 버튼에 데이터 전송 함수들																	APM ajax function
+
+   	    function modify_accept_btn(partnerCode,c_fee,c_margin,c_unpaid){
+   	    	alert("수정-수락 버튼 ON");
+   	    	
+   	    	alert(c_fee);
+   	    	
+   	        $.ajax({
+   		        type: "post",
+   		        url : "./partnerNotiModifyAccept.jsp",
+   		        data: {
+   		        	ajax_id : partnerCode,
+   		        	ajax_modified_c_fee : c_fee,
+   		        	ajax_modified_c_margin : c_margin,
+   		        	ajax_modified_c_unpaid : c_unpaid,
+   		        },
+   		        success: whenSuccess,
+   		        error: whenError
+   	     	});
+   	    }
    	    
-   		//// 0726
+   	    
+   	    function modify_cancel_btn(partnerCode){
+   	    	alert("수정-거절 버튼 ON");
+   	        $.ajax({
+   		        type: "post",
+   		        url : "./partnerNotiModifyCancel.jsp",
+   		        data: {
+   		        	ajax_id : partnerCode
+   		        },
+   		        success: whenSuccess,
+   		        error: whenError
+   	     	});   	    }
+   	    
+   	    
+   	 function DelteNoti_ok_btn_clicked(id){
+         $.ajax({
+           type: "post",
+           url: "./partnerNotiDeleteAccept.jsp",
+           data:{
+              ajax_id_for_delete_ok : id,
+          },
+           success: whenSuccess,
+           error: whenError
+         });
+      }
+      
+      function DelteNoti_cancel_btn_clicked(id){
+         $.ajax({
+           type: "post",
+           url: "./partnerNotiDeleteCancel.jsp",
+           data:{
+              ajax_id_for_delete_cancel : id,
+           },
+           success: whenSuccess,
+           error: whenError
+         });
+      }
+     
+   	    
+   	    
+   	    
+   	    
+   	    
+   	    
+   	    ///////////////////////////////////////////////////////////////////////////////////////////////
+   	    
    	    function callAjax_APM_register_btn(){
    	        $.ajax({
    		        type: "post",
@@ -814,10 +976,10 @@ $(document)
    	    // ajax에서 공통적으로 사용할 함수 모듈화 
    	    function whenSuccess(resdata){
    	        $("#ajaxReturn").html(resdata);
-   	        System.out.println("SUCESS : [Ajax] 데이터 전송 성공");
+   	        alert("Ajax 데이터 전송 성공");
    	    }
    	    function whenError(){
-   	    	System.out.println("ERROR : [Ajax] 에러 발생");
+   	        alert("Error : ajax 에러 발생");
    	    }
 
    	    // 데이터 전송 후 input에 남아있는 입력값을 지우기 위한 함수
@@ -929,7 +1091,9 @@ $(document)
 		// 위에서 유효성 검사를 모두 통과했을 경우 
 		// 데이터 전송을 위한 아작스 함수 호출됨
 
-		callAjax_ARM_register_btn();
+		var p_marginID = "#"+ARM_partner_code.value+"7";
+
+		callAjax_ARM_register_btn(p_marginID);
 
 		clear_input("ARM_bill_date");
 		clear_input("ARM_partner_code");
@@ -1067,6 +1231,8 @@ $(document)
 		// 하나의 배열로 담을 때 아래처럼 처리함. 아직 쓸일은 없더라.
 		// $("#array").val(send_array);
 
+		totalTable();
+		
 	}
 
 	function Delete_table_col(RM_table_id) {
@@ -1192,6 +1358,8 @@ $(document)
 		clear_input("APM_register_partner_name");
 		clear_input("APM_register_phone_number");
 		clear_input("APM_register_email");
+		
+		PMtotalTable();
 
 	}
 
@@ -1547,18 +1715,126 @@ textarea {
                            -->
 								</li>
 
-								<li>
-									<div id="notice_menu" class="dropdown"
-										style="margin-top: 10px;">
 
-										<span class="cuser-name ng-binding"> 알림 센터</span> <span
-											class="caret"></span>
-										<div class="dropdown-content" style="right: 0;">
-											<a class="hidden-xs" href="#" dropdown-toggle=""
-												disabled="disabled" aria-expanded="true"> 알림이 없습니다. </a>
-										</div>
-									</div>
-								</li>
+
+<li>
+                           <div id="notice_menu" class="dropdown"
+                              style="margin-top: 10px;">
+
+                              <span class="cuser-name ng-binding"> 알림 센터</span> <span
+                                 class="caret"></span>
+                              <div class="container-fluid">
+                                 <div class="col-md-12">
+                                    <div id="eventFrame" class="dropdown-event-content"
+                                       style="right: 0; text-align: left">
+                                       <a id="defaultA" class="hidden-xs" href="#" dropdown-toggle=""
+                                          disabled="disabled" aria-expanded="true"> 알림이 없습니다. </a>
+                                       <%
+                                          conn = DatabaseUtil.getConnection();
+                                          String sqlNT = "select * from admin_notification";
+                                          PreparedStatement pstmtNT = conn.prepareStatement(sqlNT);
+                                          ResultSet rsNT = null;
+                                          rsNT = pstmtNT.executeQuery();
+
+                                          int n;
+
+                                          if (rsNT.next()) {
+                                             n = 0;
+                                          } else {
+                                             n = -1;
+                                          }
+                                       %>
+                                       <script>
+                                          if (
+                                       <%=n%>
+                                          == -1) {
+                                             $('#defaultA').css(
+                                                   "display",
+                                                   "display");
+                                             $('#eventFrame')
+                                                   .css(
+                                                         "min-width",
+                                                         "160px");
+                                          } else {
+                                             $('#defaultA').css(
+                                                   "display",
+                                                   "none");
+                                             $('#eventFrame')
+                                                   .css(
+                                                         "min-width",
+                                                         "700px");
+                                          }
+                                       </script>
+                                    
+                                     <%
+                                          rsNT = pstmtNT.executeQuery();
+
+                                          while (rsNT.next()) {
+                                             String partnerCode = rsNT.getString("partnerCode").toString();
+                                             String customerCode = rsNT.getString("customerCode").toString();
+                                             String customerFee = rsNT.getString("customerFee").toString();
+                                             String customerMargin = rsNT.getString("customerMargin").toString();
+                                             String customerUnpaid = rsNT.getString("customerUnpaid").toString();
+
+                                             String date = rsNT.getString("date").toString();
+                                             String message = rsNT.getString("message").toString();
+                                             String noti = rsNT.getString("messageCheck").toString();
+                                             String c_id = rsNT.getString("id").toString();
+
+                                            
+
+                                             
+                                             
+                                             
+                                             int notiResponse = Integer.parseInt(noti);
+                                             if (notiResponse == -1) {
+                                            	 
+                                                 String c_fee = customerFee;
+                                                 String c_margin = customerMargin;
+                                                 String c_unpaid = customerUnpaid;
+                                                  
+     											long c_fee_long = Long.parseLong(customerFee);
+     											long c_margin_long = Long.parseLong(customerMargin);
+     											long c_unpaid_long = Long.parseLong(customerUnpaid);
+                                                  
+     											customerFee = format.format(c_fee_long);
+     											customerMargin = format.format(c_margin_long);
+     											customerUnpaid = format.format(c_unpaid_long);
+                                            	 
+                                            	 
+                                                out.print("<a>" + "<div class='col-md-12'>");
+                                                out.print("<div class='col-md-9'>");
+                                                out.print(partnerCode + "의 "+ customerCode + "에 대한 " + message + 
+                                                      "<br>" + "<small>" + date + "</small>" + 
+                                                      "<br><small style='color: #428BCA'>▼수정내역▼ "+"<br>요금: "+customerFee + "원 마진: " + customerMargin + "원 미수금: " + customerUnpaid + "원</small>");
+                                                out.print("</div>");
+                                                out.print("<div class='col-md-3' >");
+                                                out.print("<button class='btn btn-primary ng-scope' type='button' onclick='modify_accept_btn("+c_id+","+c_fee+","+c_margin+","+c_unpaid+")' style=text-align:cne>수락</button>" +" "+"<button class='btn btn-link ng-scope' type='button' onclick='modify_cancel_btn("+c_id+")'>거절</button>");
+                                                out.print("</div>");
+                                                out.print("</div></a>");
+                                             } else if(notiResponse == -2){
+                                                out.print("<a>" + "<div class='col-md-12'>");
+                                                out.print("<div class='col-md-9'>");
+                                                out.print(partnerCode + "의 "+ customerCode + "에 대한 " + message + "<br>" + "<small>" + date + "</small>");
+                                                out.print("</div>");
+                                                out.print("<div class='col-md-3' >");
+                                                out.print("<button onclick='DelteNoti_ok_btn_clicked("+c_id+")' class='btn btn-primary ng-scope' type='button'>수락</button>" +" "+
+                                                        "<button onclick='DelteNoti_cancel_btn_clicked("+c_id+")' class='btn btn-link ng-scope' type='button'>거절</button>");                                                out.print("</div>");
+                                                out.print("</div></a>");
+                                             }
+                                          }
+                                       %>
+                                       
+                                       
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </li>
+								
+								
+								
+								
 							</ul>
 						</li>
 						<!-- end ngIf: CurrentUser.userid -->
@@ -1661,8 +1937,8 @@ textarea {
 							<div class="ng-scope" id="divProfile"
 								style="margin-top: 20px; margin-left: 20px;">
 								<div id="flipP" style="display: inline">
-									<h3 style="color:#428BCA; display: inline" >상세검색▼<SCRIPT type="text/javascript">spacing(150);</SCRIPT></h3>
-										</div>
+									<h3 style="color: #428BCA; display: inline">상세검색▼<SCRIPT type="text/javascript">spacing(150);</SCRIPT></h3>
+								</div>
 								<div id="flipContentP" style="display: none;">
 									<div>
 										<FORM method="post" name="PTNregister" id="PTNregister">
@@ -1776,8 +2052,6 @@ textarea {
 										<SCRIPT type="text/javascript">
 											spacing(2);
 										</SCRIPT>
-										<textarea name=content cols="15" rows="1" id="page_info"
-											style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">1page 1/1</textarea>
 									</div>
 								</div>
 								<hr>
@@ -1785,192 +2059,280 @@ textarea {
 									<div>
 										<h3 style="display: inline-block; margin-right: 10px;">내역</h3>
 										<button
-												style="display: inline-block; vertical-align: baseline;"
-												class="btn" onclick="PMtotalTable();">전체</button>
+											style="display: inline-block; vertical-align: baseline;"
+											class="btn" onclick="PMtotalTable();">전체</button>
 
 									</div>
 									<!--  CUSTOMER INFORMATION TABLE -->
 									<div id="divTableP">
-									<form action="adminImgSet.jsp" method="post"
-										enctype="multipart/form-data">
-										<table class="table" id="APM_table" style="width: 1200px;">
-											<thead class="thead-light">
+										<form action="adminImgSet.jsp" method="post"
+											enctype="multipart/form-data">
+											<table class="table" id="APM_table" style="width: 1200px;">
+												<thead class="thead-light">
+													<tr>
+														<th scope="col" width="5px" nowrap><input
+															type="checkbox" name="APM_index" id="APM_index_main"
+															value="0" /></th>
+														<th scope="col" width="10px" nowrap>계약시작일</th>
+														<th scope="col" width="10px" nowrap>파트너코드</th>
+														<th scope="col" width="10px" nowrap>회사명</th>
+														<th scope="col" width="10px">이름</th>
+														<th scope="col" width="10px">전화번호</th>
+														<th scope="col" width="10px">이메일</th>
+														<th scope="col" width="10px">계산서 발행일</th>
+														<th scope="col" width="10px">정산주기</th>
+														<th scope="col" width="10px">마진율</th>
+														<th scope="col" width="10px">사업자등록증</th>
+														<th scope="col" width="10px">통장사본</th>
+													</tr>
+												</thead>
+
+
 												<tr>
-													<th scope="col" width="5px" nowrap><input
-														type="checkbox" name="APM_index" id="APM_index_main"
-														value="0" /></th>
-													<th scope="col" width="10px" nowrap>계약시작일</th>
-													<th scope="col" width="10px" nowrap>파트너코드</th>
-													<th scope="col" width="10px" nowrap>회사명</th>
-													<th scope="col" width="10px">이름</th>
-													<th scope="col" width="10px">전화번호</th>
-													<th scope="col" width="10px">이메일</th>
-													<th scope="col" width="10px">계산서 발행일</th>
-													<th scope="col" width="10px">정산주기</th>
-													<th scope="col" width="10px">마진율</th>
-													<th scope="col" width="10px">사업자등록증</th>
-													<th scope="col" width="10px">통장사본</th>
-												</tr>
-											</thead>
+
+													<%
+														String scurPage_partenr = request.getParameter("scurPage_partenr");
+														int countList = 10;
+														if (scurPage_partenr == null)
+															scurPage_partenr = "1";
+														int curPage = Integer.parseInt(scurPage_partenr);
+
+														int curRow = (curPage - 1) * countList;
+														// 파트너테이블
+														Statement stmt_susu = conn.createStatement();
+
+														//실적관리 db로딩
+														String sql_susu = "select count(*) FROM partner;";
+														stmt_susu.executeQuery(sql_susu);
+														ResultSet rs_susu = null;
+														rs_susu = stmt_susu.executeQuery(sql_susu);
+														rs_susu.next();
+													%>
+													<%
+														// 파트너테이블
+														Statement stmtPM = conn.createStatement();
+
+														//실적관리 db로딩
+														String sqlPM = "select * from partner" + " LIMIT " + curRow + ", " + countList;//"select *  FROM partner;";
+														stmtPM.executeQuery(sqlPM);
+														ResultSet rsPM = null;
+														rsPM = stmtPM.executeQuery(sqlPM);
+													%>
+
+													<%
+														int countPage = 5;
+														int totalCount = rs_susu.getInt("count(*)");
+
+														int totalPage = totalCount / countList;
+
+														if (totalCount % countList > 0)
+															totalPage++;
+														if (totalPage < curPage) {
+
+															curPage = totalPage;
+
+														}
+
+														int startPage = ((curPage - 1) / countPage) * countPage + 1;
+
+														int endPage = startPage + countPage - 1;
+
+														if (endPage > totalPage)
+															endPage = totalPage;
+													%>
+
+													<%
+														while (rsPM.next()) {
+															String APM_id = rsPM.getString("userCode");
+
+															if (APM_id.equals("admin"))
+																continue;
+															String APM_contDate = rsPM.getString("contDate");
+															String APM_userCode = rsPM.getString("userCode");
+															String APM_userCompany = rsPM.getString("userCompany");
+															String APM_userName = rsPM.getString("userName");
+															String APM_phoneNum = rsPM.getString("userTel");
+															String APM_email = rsPM.getString("userEmail");
+															String APM_billDate = rsPM.getString("billDate");
+															String APM_calcul = rsPM.getString("calcul");
+															String APM_margin = rsPM.getString("margin");
+															String APM_business = rsPM.getString("business");
+															String APM_account = rsPM.getString("account");
+													%>
 
 
-											<tr>
-												<%
-													// 파트너테이블
-													Statement stmtPM = conn.createStatement();
+													<th scope="row" width="2%"><input type="checkbox"
+														class="APM_checkSelect" id="<%=APM_id%>" name="APM_index"
+														value=<%=APM_id%> /></th>
+													<td width="5%"><%=APM_contDate%></td>
+													<td width="8%"><INPUT type="text" NAME="<%=APM_id%>0"
+														id="<%=APM_id%>0" SIZE="14" value="<%=APM_userCode%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center"></td>
+													<td width="6%"><INPUT type="text" NAME="<%=APM_id%>1"
+														id="<%=APM_id%>1" SIZE="14" value="<%=APM_userCompany%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center"></td>
+													<td width="7%"><INPUT type="text" NAME="<%=APM_id%>2"
+														id="<%=APM_id%>2" SIZE="5" value="<%=APM_userName%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center"></td>
+													<td width="7%"><INPUT type="text" NAME="<%=APM_id%>3"
+														id="<%=APM_id%>3" SIZE="11" value="<%=APM_phoneNum%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center"></td>
 
-													//실적관리 db로딩
-													String sqlPM = "select *  FROM partner;";
-													stmtPM.executeQuery(sqlPM);
-													ResultSet rsPM = null;
-													rsPM = stmtPM.executeQuery(sqlPM);
-												%>
+													<td width="10%"><INPUT type="text" NAME="<%=APM_id%>4"
+														id="<%=APM_id%>4" SIZE="25" value="<%=APM_email%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center"></td>
 
-												<%
-													while (rsPM.next()) {
-														String APM_id = rsPM.getString("userCode");
-														
-														if(APM_id.equals("admin"))
-															continue;
-														String APM_contDate = rsPM.getString("contDate");
-														String APM_userCode = rsPM.getString("userCode");
-														String APM_userCompany = rsPM.getString("userCompany");
-														String APM_userName = rsPM.getString("userName");
-														String APM_phoneNum = rsPM.getString("userTel");
-														String APM_email = rsPM.getString("userEmail");
-														String APM_billDate = rsPM.getString("billDate");
-														String APM_calcul = rsPM.getString("calcul");
-														String APM_margin = rsPM.getString("margin");
-														String APM_business = rsPM.getString("business");
-														String APM_account = rsPM.getString("account");
-												%>
+													<td width="4%"><INPUT type="text" NAME="<%=APM_id%>5"
+														id="<%=APM_id%>5" SIZE="3" value="<%=APM_billDate%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center;"></td>
 
-
-												<th scope="row" width="2%"><input type="checkbox"
-													class="APM_checkSelect" id="<%=APM_id%>" name="APM_index"
-													value=<%=APM_id%> /></th>
-												<td width="5%"><%=APM_contDate%></td>
-												<td width="8%"><INPUT type="text" NAME="<%=APM_id%>0"
-													id="<%=APM_id%>0" SIZE="14" value="<%=APM_userCode%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center"></td>
-												<td width="6%"><INPUT type="text" NAME="<%=APM_id%>1"
-													id="<%=APM_id%>1" SIZE="14" value="<%=APM_userCompany%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center"></td>
-												<td width="7%"><INPUT type="text" NAME="<%=APM_id%>2"
-													id="<%=APM_id%>2" SIZE="5" value="<%=APM_userName%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center"></td>
-												<td width="7%"><INPUT type="text" NAME="<%=APM_id%>3"
-													id="<%=APM_id%>3" SIZE="11" value="<%=APM_phoneNum%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center"></td>
-
-												<td width="10%"><INPUT type="text" NAME="<%=APM_id%>4"
-													id="<%=APM_id%>4" SIZE="25" value="<%=APM_email%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center"></td>
-
-												<td width="4%"><INPUT type="text" NAME="<%=APM_id%>5"
-													id="<%=APM_id%>5" SIZE="3" value="<%=APM_billDate%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center;"></td>
-
-												<td width="7%"><SELECT NAME="<%=APM_id%>6"
-													disabled="disabled" id="<%=APM_id%>6"
-													style="border: 1px bold #000000;">
-														<OPTION VALUE="3개월">3 개월</OPTION>
-														<OPTION VALUE="1개월">1 개월</OPTION>
-												</SELECT></td>
-												<td width="5%"><INPUT type="text" NAME="<%=APM_id%>7"
-													id="<%=APM_id%>7" SIZE="3" value="<%=APM_margin%>"
-													readonly="readonly"
-													style="border: 0 solid black; text-align: center;">%</td>
-												<td width="7%">
-					<%
-						//regiBusiness
-							if (!APM_business.equals("미등록")) {
-					%>
-					<div id="divBusinessEdit_<%=APM_id%>">
-						<a id="account" class="btn btn-default" href="profileImgDown.jsp?file_name=<%=APM_business%>">확인 </a>
-						<BUTTON type="button" onclick="editBusiness(<%=APM_id%>);"
-							class="btn btn-default" >수정</button>
-					</div> <%
+													<td width="7%"><SELECT NAME="<%=APM_id%>6"
+														disabled="disabled" id="<%=APM_id%>6"
+														style="border: 1px bold #000000;">
+															<OPTION VALUE="3개월">3 개월</OPTION>
+															<OPTION VALUE="1개월">1 개월</OPTION>
+													</SELECT></td>
+													<td width="5%"><INPUT type="text" NAME="<%=APM_id%>7"
+														id="<%=APM_id%>7" SIZE="3" value="<%=APM_margin%>"
+														readonly="readonly"
+														style="border: 0 solid black; text-align: center;">%</td>
+													<td width="7%">
+														<%
+															//regiBusiness
+																if (!APM_business.equals("미등록")) {
+														%>
+														<div id="divBusinessEdit_<%=APM_id%>">
+															<a id="account" class="btn btn-default"
+																href="profileImgDown.jsp?file_name=<%=APM_business%>">확인
+															</a>
+															<BUTTON type="button"
+																onclick="editBusiness(<%=APM_id%>);"
+																class="btn btn-default">수정</button>
+														</div> <%
  	} else if (APM_business.equals("미등록")) {
  %>
-					<div id="divBusinessRegister_<%=APM_id%>">
+														<div id="divBusinessRegister_<%=APM_id%>">
 
-						<input type='file' id="businessImgDB_<%=APM_id%>" name="businessImgDB_<%=APM_id%>"
-							style="width:0px; height:0px"	/>
-						<button class="btn btn-default"
-							onfocus="this.blur();" onclick="upload_BDB(this.form.businessImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
-						
-					</div> <%
+															<input type='file' id="businessImgDB_<%=APM_id%>"
+																name="businessImgDB_<%=APM_id%>"
+																style="width: 0px; height: 0px" />
+															<button class="btn btn-default" onfocus="this.blur();"
+																onclick="upload_BDB(this.form.businessImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
+
+														</div> <%
  	}
  %>
 
-					<div id="divBusinessEdit_<%=APM_id%>" style="display: none">
-					<a id="account"  class="btn btn-default" href="profileImgDown.jsp?file_name=<%=APM_business%>">확인 </a>
-						
-						<BUTTON type="button" onclick="editBusiness(<%=APM_id%>);" class="btn btn-default"
-							style="border: 2px solid #737373;">수정</button>
-					</div>
-					<div id="divBusinessRegister_<%=APM_id%>" style="display:none;">
+														<div id="divBusinessEdit_<%=APM_id%>"
+															style="display: none">
+															<a id="account" class="btn btn-default"
+																href="profileImgDown.jsp?file_name=<%=APM_business%>">확인
+															</a>
 
-						<input type='file' id="businessImg_<%=APM_id%>" name="businessImg_<%=APM_id%>"
-							style="width:0px; height:0px"/>
-						<button class="btn btn-default"
-							onfocus="this.blur();" onclick="upload_B(this.form.businessImg_<%=APM_id%>,<%=APM_id%>);">등록</button>
-						
+															<BUTTON type="button"
+																onclick="editBusiness(<%=APM_id%>);"
+																class="btn btn-default"
+																style="border: 2px solid #737373;">수정</button>
+														</div>
+														<div id="divBusinessRegister_<%=APM_id%>"
+															style="display: none;">
 
-					</div>
-				</td>
-												<td width="7%">
-					<%
-						if (!APM_account.equals("미등록")) {
-					%>
-					<div id="divAccountEdit_<%=APM_id%>">
-						<a id="account"  class="btn btn-default" href="profileImgDown.jsp?file_name=<%=APM_account%>">확인 </a>
-						<BUTTON type="button" onclick="editAccount(<%=APM_id%>);"
-							class="btn btn-default" >수정</button>
-					</div> <%
+															<input type='file' id="businessImg_<%=APM_id%>"
+																name="businessImg_<%=APM_id%>"
+																style="width: 0px; height: 0px" />
+															<button class="btn btn-default" onfocus="this.blur();"
+																onclick="upload_B(this.form.businessImg_<%=APM_id%>,<%=APM_id%>);">등록</button>
+
+
+														</div>
+													</td>
+													<td width="7%">
+														<%
+															if (!APM_account.equals("미등록")) {
+														%>
+														<div id="divAccountEdit_<%=APM_id%>">
+															<a id="account" class="btn btn-default"
+																href="profileImgDown.jsp?file_name=<%=APM_account%>">확인
+															</a>
+															<BUTTON type="button" onclick="editAccount(<%=APM_id%>);"
+																class="btn btn-default">수정</button>
+														</div> <%
  	} else if (APM_account.equals("미등록")) { // divAccountRegister accountImgDB accountOk accountImg
  %>
-					<div id="divAccountRegister_<%=APM_id%>" >
+														<div id="divAccountRegister_<%=APM_id%>">
 
-						<input type='file' id="accountImgDB_<%=APM_id%>" name="accountImgDB_<%=APM_id%>"
-							style="width:0px; height:0px"	/>
-						<button class="btn btn-default"
-							onfocus="this.blur();" onclick="upload_ADB(this.form.accountImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
-						
+															<input type='file' id="accountImgDB_<%=APM_id%>"
+																name="accountImgDB_<%=APM_id%>"
+																style="width: 0px; height: 0px" />
+															<button class="btn btn-default" onfocus="this.blur();"
+																onclick="upload_ADB(this.form.accountImgDB_<%=APM_id%>,<%=APM_id%>);">등록</button>
 
-					</div> <%
+
+														</div> <%
  	}
  %>
-					<div id="divAccountEdit_<%=APM_id%>" style="display: none;">
-						<a id="account" class="btn btn-default" href="profileImgDown.jsp?file_name=<%=APM_account%>">확인 </a>
-						<BUTTON type="button" onclick="editAccount();"
-							class="btn btn-default">수정</button>
-					</div>
+														<div id="divAccountEdit_<%=APM_id%>"
+															style="display: none;">
+															<a id="account" class="btn btn-default"
+																href="profileImgDown.jsp?file_name=<%=APM_account%>">확인
+															</a>
+															<BUTTON type="button" onclick="editAccount();"
+																class="btn btn-default">수정</button>
+														</div>
 
-					<div id="divAccountRegister_<%=APM_id%>"  style="display:none;">
+														<div id="divAccountRegister_<%=APM_id%>"
+															style="display: none;">
 
-						<input type='file' id="accountImg_<%=APM_id%>" name="accountImg_<%=APM_id%>"
-								style="width:0px; height:0px"/>
-						<button class="btn btn-default"
-							onfocus="this.blur();" onclick="upload_A(this.form.accountImg_<%=APM_id%>,<%=APM_id%>);">등록</button>
-						
+															<input type='file' id="accountImg_<%=APM_id%>"
+																name="accountImg_<%=APM_id%>"
+																style="width: 0px; height: 0px" />
+															<button class="btn btn-default" onfocus="this.blur();"
+																onclick="upload_A(this.form.accountImg_<%=APM_id%>,<%=APM_id%>);">등록</button>
 
-					</div>
-				</td>
-											</tr>
-											<%
-												}
-											%>
-										</table>
-</form>
 
+														</div>
+													</td>
+												</tr>
+												<%
+													}
+												%>
+											</table>
+											<div id="pagination" style=text-align:center>
+												<%
+													if (curPage > 1) {
+
+														out.print("<button type='button' onclick='readPagingPM(" + 1 + ", " + countList
+																+ ");' class='btn btn-default'> << 처음</button>");
+														//		out.print("<a href=\"?scurPage_partenr=" + 1 + "\">처음</a>");
+														//out.print("<a href=\"?curPage=" + (curPage - 1) + "\">< 이전</a>");
+														out.print("<button type='button' onclick='readPagingPM(" + (curPage - 1) + ", " + countList
+																+ ");' class='btn btn-default'>< 이전</button>");
+
+													}
+													for (int i = startPage; i < endPage + 1; i++) {
+														//out.print("<a href=\"?scurPage_partenr=" + i + "\">"+i+"</a>");
+														out.print("<button type='button' onclick='readPagingPM(" + i + ", " + countList
+																+ ");' class='btn btn-default'>" + i + "</button>");
+													}
+													if (curPage < totalPage) {
+														//out.print("<a href=\"?scurPage_partenr=" + (curPage + 1) + "\">다음 ></a>");
+														out.print("<button type='button' onclick='readPagingPM(" + (curPage + 1) + ", " + countList
+																+ ");' class='btn btn-default'> > 다음</button>");
+
+													}
+													if (endPage < totalPage)
+														//out.print("<a href=\"?scurPage_partenr=" + totalPage + "\">끝</a>");
+														out.print("<button type='button' onclick='readPagingPM(" + totalPage + ", " + countList
+																+ ");' class='btn btn-default'> >> 끝</button>");
+												%>
+											</div>
+										</form>
 
 									</div>
 								</div>
@@ -1985,8 +2347,8 @@ textarea {
 
 								<div style="margin-top: 20px; margin-left: 20px;">
 									<div id="flipRM">
-											<h3 style="color:#428BCA; display: inline" >상세검색▼</h3>
-										
+										<h3 style="color: #428BCA; display: inline">상세검색▼</h3>
+
 									</div>
 									<div id="flipContentRM" style="display: none;">
 										<div>
@@ -2017,6 +2379,7 @@ textarea {
 												</SELECT>&nbsp;&nbsp; <LABEL>요금</LABEL> <INPUT type="text"
 													NAME="ARM_fee" id="ARM_fee" SIZE="10"
 													style="border: 2px solid #000000;"> 원&nbsp;
+												<!-- susu customer insert btn -->
 												<BUTTON type="button" class="btn" id="ARM_register_btn"
 													name="ARM_register_btn" onclick="ARM_register_check()"
 													style="border: 2px solid #737373;">등록</button>
@@ -2050,6 +2413,7 @@ textarea {
 
 											<FORM method="post" name="ARM_btn_event" id="ARM_btn_event"
 												style="display: inline">
+												<!-- susu customer margin update -->
 												<BUTTON type="button" class="btn" id="ARM_modify"
 													name="ARM_modify" onclick="ARM_modify_btn_clicked() "
 													style="border: 2px solid #737373;">수정</button>
@@ -2093,8 +2457,6 @@ textarea {
 													onclick="searchBtn();" name="ARM_search_btn"
 													style="border: 2px solid #737373;">검색</button>
 											</form>
-											<textarea name=content cols="15" rows="1" id="page_info"
-												style="background-color: transparent; border: 0 solid black; font-size: 9pt; color: #737373; overflow: hidden;">1page 1/1</textarea>
 										</div>
 									</div>
 									<hr>
@@ -2138,20 +2500,71 @@ textarea {
 											</thead>
 											<tbody>
 												<tr>
+												<%//curPage,
+
+String scurPage_customer = request.getParameter("curPageC");
+int countListC = 10;
+
+
+if(scurPage_customer==null)
+	scurPage_customer="1";
+int curPageC = Integer.parseInt(scurPage_customer);
+
+int curRowC= (curPageC-1)*countListC;
+
+	// 파트너테이블
+	Statement stmt_susuC = conn.createStatement();
+
+	//실적관리 db로딩
+	String sql_susuC = "select count(*) FROM CUSTOMER;";
+	stmt_susuC.executeQuery(sql_susuC);
+	ResultSet rs_susuC = null;
+	rs_susuC = stmt_susuC.executeQuery(sql_susuC);
+	rs_susuC.next();
+%>	
 													<%
 														// 파트너테이블
 														Statement stmtARM = conn.createStatement();
 
 														//ARM db로딩
-														String sqlARM = "select t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t1.c_unpaid FROM customer t1, partner t2 where t1.userCode = t2.userCode order by c_billDate;";
+														//t1 : customer / t2 : partner
+														String sqlARM = "select t1.id, t1.c_billDate, t2.userCompany, t2.userName, t1.c_code, t1.c_name, t1.c_name, t1.c_plan, t1.c_calcul, t1.c_fee, t1.c_margin, t2. margin, t1.c_unpaid FROM customer t1, partner t2 where t1.userCode = t2.userCode order by c_billDate"+" LIMIT "+curRowC+", "+countListC;
 														stmtARM.executeQuery(sqlARM);
 														ResultSet rsARM = null;
 														rsARM = stmtARM.executeQuery(sqlARM);
 													%>
+													
+																										
+<%
+	int countPageC = 5;
+	int totalCountC = rs_susuC.getInt("count(*)");
+	
+	int totalPageC = totalCountC / countListC;
+
+	
+	if (totalCountC % countListC > 0) totalPageC++;
+	if (totalPageC < curPageC) {
+
+		curPageC = totalPageC;
+
+	}
+	
+	int startPageC = ((curPageC - 1) / countPageC) * countPageC + 1;
+	
+	int endPageC = startPageC + countPageC -1;
+
+	if (endPageC > totalPageC) endPageC = totalPageC;
+
+	
+%>
 
 													<%
+													long customerFee = 0;
+													long customerMargin = 0;
+													long customerUnpaid = 0;
 														while (rsARM.next()) {
-															String id = rsARM.getString("id");															String billDate = rsARM.getString("c_billDate");
+															String id = rsARM.getString("id");
+															String billDate = rsARM.getString("c_billDate");
 															String userCompany = rsARM.getString("userCompany");
 															String userName = rsARM.getString("userName");
 															String c_code = rsARM.getString("c_code");
@@ -2161,21 +2574,22 @@ textarea {
 															String c_fee = rsARM.getString("c_fee");
 															String c_margin = rsARM.getString("c_margin");
 															String c_unpaid = rsARM.getString("c_unpaid");
+															String p_margin = rsARM.getString("margin");
 
-															
 															id = "rm" + id + "_";
 															
-				                                             long c_fee_long = Long.parseLong(c_fee);
-				                                             long c_margin_long = Long.parseLong(c_margin);
-				                                             long c_unpaid_long = Long.parseLong(c_unpaid);
+															long c_fee_long = Long.parseLong(c_fee);
+															long c_margin_long = Long.parseLong(c_margin);
+															long c_unpaid_long = Long.parseLong(c_unpaid);
+															
+															customerFee += c_fee_long;
+															customerMargin += c_margin_long;
+															customerUnpaid += c_unpaid_long;
+															
+															c_fee = format.format(c_fee_long);
+															c_margin = format.format(c_margin_long);
+															c_unpaid = format.format(c_unpaid_long);
 
-				                                             c_fee = format.format(c_fee_long);
-				                                             c_margin = format.format(c_margin_long);
-				                                             c_unpaid = format.format(c_unpaid_long);
-															
-															
-															
-															
 															//out.print("code "+c_code+"<br>");
 													%>
 													<th scope="row" width="2%"><input type="checkbox"
@@ -2209,57 +2623,59 @@ textarea {
 												%>
 
 											</tbody>
-											
+
 											<tfoot>
-												
+
 												<%
-															//실적관리 !!!!!!  
-
-															//out.print("db 연결 정보 " + conn);
-
-												Statement stmtARM2 = conn.createStatement();
-
-												//ARM db로딩
-												String sqlARM2 = "select IFNULL(sum(c_fee),0), IFNULL(sum(c_margin),0), IFNULL(sum(c_unpaid),0) from CUSTOMER";
-												stmtARM2.executeQuery(sqlARM2);
-												ResultSet rsRM2 = null;
-												rsRM2 = stmtARM2.executeQuery(sqlARM2);
-														%>
-														<%
-															while (rsRM2.next()) {
-																//c_margin c_unpaid
-																//String str = String.format("%,d", i); //%,d",
-																String fee = rsRM2.getString("IFNULL(sum(c_fee),0)"); 
-																String margin = rsRM2.getString("IFNULL(sum(c_margin),0)");
-																String unpaid = rsRM2.getString("IFNULL(sum(c_unpaid),0)");
-																
-																
-																long value = Long.parseLong(fee);
-																fee = format.format(value);
-																value = Long.parseLong(margin);
-																margin = format.format(value);
-																value = Long.parseLong(unpaid);
-																unpaid = format.format(value);
-																
+												String fee,margin,unpaid;
+												
+												fee = format.format(customerFee); 
+												margin = format.format(customerMargin); 
+												unpaid = format.format(customerUnpaid); 
+												
 																
 														%>
 												<tr>
-												<td colspan="2" style="font-weight:bold; ">
-													합계
-													</td>
-													<td  colspan="6" ></td>
-													<td>
-													<%=fee %>
-													</td>
-													<td>
-													<%=margin %>
-													</td>
-													<td>
-													<%=unpaid %>
-													</td>
-													<%} %>
-												</tfoot>
+													<td colspan="2" style="font-weight: bold;">합계</td>
+													<td colspan="6"></td>
+													<td><%=fee%></td>
+													<td><%=margin%></td>
+													<td><%=unpaid%></td>
+													<%
+														//}
+													%>
+												
+											</tfoot>
 										</table>
+										<div id="pagination" style=text-align:center>
+												<%
+													if (curPageC > 1) {
+
+														out.print("<button type='button' onclick='readPagingRM(" + 1 + ", " + countListC
+																+ ");' class='btn btn-default'> << 처음</button>");
+														//		out.print("<a href=\"?scurPage_partenr=" + 1 + "\">처음</a>");
+														//out.print("<a href=\"?curPage=" + (curPage - 1) + "\">< 이전</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + (curPageC - 1) + ", " + countListC
+																+ ");' class='btn btn-default'>< 이전</button>");
+
+													}
+													for (int i = startPageC; i < endPageC + 1; i++) {
+														//out.print("<a href=\"?scurPage_partenr=" + i + "\">"+i+"</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + i + ", " + countListC
+																+ ");' class='btn btn-default'>" + i + "</button>");
+													}
+													if (curPageC < totalPageC) {
+														//out.print("<a href=\"?scurPage_partenr=" + (curPage + 1) + "\">다음 ></a>");
+														out.print("<button type='button' onclick='readPagingRM(" + (curPageC + 1) + ", " + countListC
+																+ ");' class='btn btn-default'> > 다음</button>");
+
+													}
+													if (endPageC < totalPageC)
+														//out.print("<a href=\"?scurPage_partenr=" + totalPage + "\">끝</a>");
+														out.print("<button type='button' onclick='readPagingRM(" + totalPageC + ", " + countListC
+																+ ");' class='btn btn-default'> >> 끝</button>");
+												%>
+											</div>
 									</div>
 								</div>
 							</div>
@@ -2268,7 +2684,6 @@ textarea {
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </body>
 </html>
