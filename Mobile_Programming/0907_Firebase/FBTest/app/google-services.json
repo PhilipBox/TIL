@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "903406063883",
+    "firebase_url": "https://philipfb-3d795.firebaseio.com",
+    "project_id": "philipfb-3d795",
+    "storage_bucket": "philipfb-3d795.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903406063883:android:104983bc60786394",
+        "android_client_info": {
+          "package_name": "com.example.philip.fbtest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903406063883-e912dfqtr6f0p4b57qubj5lbrm8mmvv7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtlLMuiPLb0Mv0srxS1QQE6Os48gB1Ero"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
