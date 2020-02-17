@@ -29,11 +29,17 @@
 
 # 문제2
 다음과 같이 n x n 크기의 격자에 1부터 n x n까지의 수가 하나씩 있습니다.
+
 ![image](http://res.cloudinary.com/sgc109/image/upload/c_scale,w_300/v1517462270/%EA%B7%B8%EB%A6%BC1_qysbr6.png)
+
 이때 수가 다음과 같은 순서로 배치되어있다면 이것을 n-소용돌이 수라고 부릅니다.
+
 ![image](http://res.cloudinary.com/sgc109/image/upload/c_scale,w_300/v1517462270/%EA%B7%B8%EB%A6%BC2_ol8snc.png)
+
 소용돌이 수에서 1행 1열부터 n 행 n 열까지 대각선상에 존재하는 수들의 합을 구해야 합니다.
+
 ![image](http://res.cloudinary.com/sgc109/image/upload/c_scale,w_300/v1517462270/%EA%B7%B8%EB%A6%BC3_cbcdg3.png)
+
 위의 예에서 대각선상에 존재하는 수의 합은 15입니다.
 격자의 크기 n이 주어질 때 n-소용돌이 수의 대각선상에 존재하는 수들의 합을 return 하도록 solution 메소드를 완성해주세요.
 
@@ -60,7 +66,9 @@ n-소용돌이 수의 대각선상에 존재하는 수들의 합을 return 해�
 문제의 예와 같습니다.
 
 예시 #2
+
 ![image](http://res.cloudinary.com/sgc109/image/upload/c_scale,w_300/v1517462270/%EA%B7%B8%EB%A6%BC4_astq7q.png)
+
 1과 3을 더하여 4가 됩니다.
 
 
@@ -72,7 +80,9 @@ n-소용돌이 수의 대각선상에 존재하는 수들의 합을 return 해�
 단, 나이트는 체스판 밖으로는 이동할 수 없습니다.
 
 체스판의 각 칸의 위치는 다음과 같이 표기합니다.
+
 ![image](https://s3.ap-northeast-2.amazonaws.com/grepp-cloudfront/programmers_imgs/challengeable-imgs/20180315_knight2.png)
+
 예를 들어, A번줄과 1번줄이 겹치는 부분은 'A1'이라고 합니다.
 
 나이트의 위치 pos가 매개변수로 주어질 때, 나이트를 한 번 움직여서 이동할 수 있는 칸은 몇개인지 return 하도록 solution 메소드를 완성해주세요.
@@ -98,7 +108,9 @@ n-소용돌이 수의 대각선상에 존재하는 수들의 합을 return 해�
 
 ##### 예시 설명
 나이트가 A7 위치에 있으면 아래 그림과 같이 왼쪽으로는 이동하지 못하고, 오른쪽으로는 맨 위를 제외한 나머지 세 칸으로 이동 가능합니다. 
+
 ![image](https://s3.ap-northeast-2.amazonaws.com/grepp-cloudfront/programmers_imgs/challengeable-imgs/20180315_knight3.png)
+
 따라서, 3을 return 하면 됩니다.
 
 
