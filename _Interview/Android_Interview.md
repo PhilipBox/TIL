@@ -22,7 +22,7 @@ Service : 백그라운드에서 실행되는 서비스로,  manifest에 등록�
 	3. 모든 Service는 Service class를 상속받아서 사용한다.
 	4. Service는 네트워크를 통해 데이터를 가져올 수 있다.
 
-Broadcast Receiver 
+Broadcast Receiver :  
 	1. 디바이스에서 발생하는 어떠한 일 중에 애플리케이션이 알아야하는 상황이 발생하면 알려준다.
 	2. Receiver를 통해서 디바이스의 상황을 감지하여 적절한 작업 수행이 가능하다.
 
@@ -33,7 +33,7 @@ Content Provider : 데이터를 관리하고, 데이터를 제공하는 컴포�
 
 4대 컴포넌트들이 소통하기 위해서는 Intent를 이용해서 호출하거나 동작을 합니다. Intent라는것은 메시지를 담은 객체이다.
 이 Intent를 통해서 Activity를 호출한다던지, Service를 호출하는 것과 같은 작업을 할 수 있습니다. 
-즉, Intent는 4대 컴포넌트를 제어할 수 있는 메시지다.
+즉, Intent는 4대 컴포넌트를 제어할 수 있는 메시지입니다.
 
 ## 안드로이드의 Activity 수명주기(Life Cycle)에 대해서 설명하세요.
 onCreate() 메소드가 실행이 되는데, 이 부분에서는 일반적으로 초기화 작업을 많이 합니다.<br>
@@ -56,3 +56,10 @@ application 태그에는 앱 아이콘, 앱 이름을 정의하고,
 activity 태그에는activity 클래스명과 activity이름을 정의하며,
 service, receiver, provider 태그에는 각각 서비스,  리시버, 프로바이더에 대한 내용을 정의합니다.
 permission 태그에는 인터넷처럼 앱에 필요한 권한 내용을 정의합니다.
+
+## Inflation이란 무엇인가요?
+**인플레이션**이란 **XML레이아웃 파일의 내용이 setContentView(), LayoutInflator객체 등을통해 실제 메모리상에 로드되어 화면에 보여지는 일체의 과정**을 의미합니다.
+
+인플레이션이 일어나는 순서는
+1. XML레이아웃파일의 내용이 프로젝트가 빌드되는 시점에 바이너리코드로 컴파일되어 애플리케이션에 포함됩니다.
+2. 그리고 실행시점에 컴파일된 바이너리코드가 메모리상에 객체화됩니다. 
