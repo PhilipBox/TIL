@@ -9,11 +9,11 @@ Broadcast Receiver는 안드로이드에서 발생하는 브로드캐스트 메�
 Content Provider는 앱 사이의 데이터 공유를 위한 인터페이스를 제공하는 컴포넌트입니다.
 
 Activity : UI 화면을 담당하고, Activity class를 꼭 상속 받아야합니다.  Activity가 기본적으로 가지고 있는 Life-Cycle method를 재정의해서 원하는 방식으로 앱을 제작하고 구현해야 합니다.
-- 특징.
-		1. 안드로이드는 하나 이상의 Activity를 가지고 있어야한다.
-		2. 두 개의 Activity동시에 display할수없다.
-		3. 다른 앱의 Activity도 불러낼 수 있다.
-		4. Activity내에서 fragment를 추가해서 분할시킬 수 있다.
+- 특징
+	1. 안드로이드는 하나 이상의 Activity를 가지고 있어야한다.
+	2. 두 개의 Activity동시에 display할수없다.
+	3. 다른 앱의 Activity도 불러낼 수 있다.
+	4. Activity내에서 fragment를 추가해서 분할시킬 수 있다.
 
 Service : 백그라운드에서 실행되는 서비스로,  manifest에 등록되어야 합니다. Activity내에서 startService를 통해서 실제 서비스를 실행해서 동작시킬 수 있습니다.
 - 특징
