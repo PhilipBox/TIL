@@ -35,3 +35,16 @@ e. 스프링은 관점 지향 프로그래밍(AOP : Aspect-Oriented Programming)
 f. 스프링은 영속성과 관련된 다양한 서비스를 지원 => MyBatis나 Hibernate등 이미 완성도가 높은 데이터베이스 처리 라이브러리와 연결할 수 있는 인터페이스를 제공한다.
 
 g. 스프링은 확장성이 높음 => 스프링 프레임워크에 통합하기 위해 간단하게 기존 라이브러리를 감싸는 정도로 스프링에서 사용이 가능하기 때문에 수많은 라이브러리가 이미 스프링에서 지원되고 있고 스프링에서 사용되는 라이브러리를 별도로 분리하기도 용이하다.
+
+## Spring MVC 처리 과정
+1) DispatcherServlet : 어플리케이션으로 들어오는 모든 Request를 받는 관문이다. Request를 실제로 처리할 Controller에게 전달하고 그 결과값을 받아서 View에게 전달하여 적절한 응답을 생성할 수 있도록 흐름을 제어한다.
+
+2) HandlerMapping : Request URL 각각 어떤 Controller가 실제로 처리할 것인지 찾아주는 역할
+
+3) Controller : Request를 직접 처리한 후 그 결과를 다시 DispatcherServlet에게 돌려준다.
+
+4) ModelAndView : Controller가 처리한 결과와 그 결과를 보여줄 View에 관한 정보를 담고있는 객체이다.
+
+5) ViewResolver : View관련 정보를 갖고 실제 View를 찾아주는 역할을 한다.
+
+6) View : Controller가 처리한 결과값을 보여줄 View를 생성한다.
